@@ -1,0 +1,582 @@
+# ==============================================================================
+# appearance_mode
+# JSON: appearance.mode
+# kind: string (enum)
+# allowed: "dark", "light", "auto"
+
+# default: "dark"
+# 
+appearance_mode = "dark";
+
+
+# ==============================================================================
+# debug_mode
+# JSON: core.debug_mode
+# kind: bool
+
+
+# default: false
+# 
+debug_mode = false;
+
+
+# ==============================================================================
+# game_of_life_cell_style
+# JSON: core.game_of_life_cell_style
+# kind: string (enum)
+# allowed: "full_block", "dotted"
+
+# default: "full_block"
+# 
+game_of_life_cell_style = "full_block";
+
+
+# ==============================================================================
+# show_macchina_on_welcome
+# JSON: core.show_macchina_on_welcome
+# kind: bool
+
+
+# default: true
+# 
+show_macchina_on_welcome = true;
+
+
+# ==============================================================================
+# skip_welcome_screen
+# JSON: core.skip_welcome_screen
+# kind: bool
+
+
+# default: false
+# 
+skip_welcome_screen = false;
+
+
+# ==============================================================================
+# welcome_duration_seconds
+# JSON: core.welcome_duration_seconds
+# kind: float (float_range)
+
+# range: 0.200000..8.000000
+# default: 4.0
+# 
+welcome_duration_seconds = 4.0;
+
+
+# ==============================================================================
+# welcome_style
+# JSON: core.welcome_style
+# kind: string (enum)
+# allowed: "static", "logo", "boids", "boids_predator", "boids_schools", "mandelbrot", "game_of_life_gliders", "game_of_life_oscillators", "game_of_life_bloom", "random"
+
+# default: "random"
+# 
+welcome_style = "random";
+
+
+# ==============================================================================
+# editor_command
+# JSON: editor.command
+# kind: string
+
+
+# default: null
+# 
+editor_command = null;
+
+
+# ==============================================================================
+# hide_sidebar_on_file_open
+# JSON: editor.hide_sidebar_on_file_open
+# kind: bool
+
+
+# default: false
+# 
+hide_sidebar_on_file_open = false;
+
+
+# ==============================================================================
+# helix_external
+# JSON: helix.external
+# kind: helix_external
+
+
+# default: null
+# 
+helix_external = null;
+
+
+# ==============================================================================
+# helix_steel_plugins
+# JSON: helix.steel_plugins
+# kind: helix_steel_plugins
+
+
+# default: {"enabled":["splash","spacemacs_theme"],"extra":[]}
+# 
+helix_steel_plugins = {"enabled":["splash","spacemacs_theme"],"extra":[]};
+
+
+# ==============================================================================
+# default_shell
+# JSON: shell.default_shell
+# kind: string (enum)
+# allowed: "nu", "bash", "fish", "xonsh", "zsh"
+
+# default: "nu"
+# 
+default_shell = "nu";
+
+
+# ==============================================================================
+# terminal_config_mode
+# JSON: terminal.config_mode
+# kind: string (enum)
+# allowed: "yazelix", "user"
+
+# default: "yazelix"
+# 
+terminal_config_mode = "yazelix";
+
+
+# ==============================================================================
+# mars_emoji_font
+# JSON: terminal.emoji_style
+# kind: string (enum)
+# allowed: "noto", "twitter", "serenityos"
+
+# default: "noto"
+# 
+mars_emoji_font = "noto";
+
+
+# ==============================================================================
+# transparency
+# JSON: terminal.transparency
+# kind: string (enum)
+# allowed: "none", "very_low", "low", "medium", "high", "very_high", "super_high"
+
+# default: "medium"
+# 
+transparency = "medium";
+
+
+# ==============================================================================
+# left_sidebar_args
+# JSON: workspace.left_sidebar.args
+# kind: string_list
+
+
+# default: ["sidebar","yazi"]
+# 
+left_sidebar_args = ["sidebar","yazi"];
+
+
+# ==============================================================================
+# left_sidebar_command
+# JSON: workspace.left_sidebar.command
+# kind: string
+
+
+# default: "yzx"
+# 
+left_sidebar_command = "yzx";
+
+
+# ==============================================================================
+# left_sidebar_width_percent
+# JSON: workspace.left_sidebar.width_percent
+# kind: int (int_range)
+
+# range: 1..48
+# default: 20
+# 
+left_sidebar_width_percent = 20;
+
+
+# ==============================================================================
+# right_sidebar_args
+# JSON: workspace.right_sidebar.args
+# kind: string_list
+
+
+# default: ["agent"]
+# 
+right_sidebar_args = ["agent"];
+
+
+# ==============================================================================
+# right_sidebar_command
+# JSON: workspace.right_sidebar.command
+# kind: string
+
+
+# default: "yzx"
+# 
+right_sidebar_command = "yzx";
+
+
+# ==============================================================================
+# right_sidebar_width_percent
+# JSON: workspace.right_sidebar.width_percent
+# kind: int (int_range)
+
+# range: 1..48
+# default: 40
+# 
+right_sidebar_width_percent = 40;
+
+
+# ==============================================================================
+# yazi_command
+# JSON: yazi.command
+# kind: string
+
+
+# default: null
+# 
+yazi_command = null;
+
+
+# ==============================================================================
+# yazi_keybindings
+# JSON: yazi.keybindings
+# kind: string_list_map
+
+
+# default: {"open_directory_as_workspace_pane":["<A-p>"],"open_zoxide_in_editor":["<A-z>"]}
+# 
+yazi_keybindings = {"open_directory_as_workspace_pane":["<A-p>"],"open_zoxide_in_editor":["<A-z>"]};
+
+
+# ==============================================================================
+# yazi_plugins
+# JSON: yazi.plugins
+# kind: string_list
+
+
+# default: ["git","starship"]
+# 
+yazi_plugins = ["git","starship"];
+
+
+# ==============================================================================
+# yazi_sort_by
+# JSON: yazi.sort_by
+# kind: string (enum)
+# allowed: "alphabetical", "natural", "modified", "created", "size"
+
+# default: "alphabetical"
+# 
+yazi_sort_by = "alphabetical";
+
+
+# ==============================================================================
+# yazi_theme
+# JSON: yazi.theme
+# kind: string
+
+
+# default: "default"
+# 
+yazi_theme = "default";
+
+
+# ==============================================================================
+# yazi_ya_command
+# JSON: yazi.ya_command
+# kind: string
+
+
+# default: null
+# 
+yazi_ya_command = null;
+
+
+# ==============================================================================
+# zellij_claude_usage_display
+# JSON: zellij.claude_usage_display
+# kind: string (enum)
+# allowed: "token", "quota", "both"
+
+# default: "both"
+# 
+zellij_claude_usage_display = "both";
+
+
+# ==============================================================================
+# zellij_claude_usage_periods
+# JSON: zellij.claude_usage_periods
+# kind: string_list (enum_string_list)
+# allowed: "5h", "week"
+
+# default: ["5h","week"]
+# 
+zellij_claude_usage_periods = ["5h","week"];
+
+
+# ==============================================================================
+# zellij_codex_usage_display
+# JSON: zellij.codex_usage_display
+# kind: string (enum)
+# allowed: "token", "quota", "both"
+
+# default: "quota"
+# 
+zellij_codex_usage_display = "quota";
+
+
+# ==============================================================================
+# zellij_codex_usage_periods
+# JSON: zellij.codex_usage_periods
+# kind: string_list (enum_string_list)
+# allowed: "5h", "week"
+
+# default: ["5h","week"]
+# 
+zellij_codex_usage_periods = ["5h","week"];
+
+
+# ==============================================================================
+# custom_popups
+# JSON: zellij.custom_popups
+# kind: custom_popup_list
+
+
+# default: [{"command":["zenith"],"id":"zenith","keep_alive":true,"keybindings":["Alt Shift I"]}]
+# 
+custom_popups = [{"command":["zenith"],"id":"zenith","keep_alive":true,"keybindings":["Alt Shift I"]}];
+
+
+# ==============================================================================
+# zellij_custom_text
+# JSON: zellij.custom_text
+# kind: string
+
+
+# default: ""
+# 
+zellij_custom_text = "";
+
+
+# ==============================================================================
+# zellij_default_mode
+# JSON: zellij.default_mode
+# kind: string (enum)
+# allowed: "normal", "locked"
+
+# default: "normal"
+# 
+zellij_default_mode = "normal";
+
+
+# ==============================================================================
+# disable_zellij_tips
+# JSON: zellij.disable_tips
+# kind: bool
+
+
+# default: true
+# 
+disable_zellij_tips = true;
+
+
+# ==============================================================================
+# zellij_keybindings
+# JSON: zellij.keybindings
+# kind: string_list_map
+
+
+# default: {"bottom_popup":["Alt Shift J"],"config":["Alt Shift C"],"menu":["Alt Shift M"],"move_focus_left_or_tab":["Alt h","Alt Left"],"move_focus_right_or_tab":["Alt l","Alt Right"],"next_family":["Alt ]"],"open_codex_agent_right":["Alt Shift L"],"open_workspace_terminal":["Alt m"],"previous_family":["Alt ["],"smart_reveal":["Alt r"],"toggle_editor_right_sidebar_focus":["Ctrl Shift Y"],"toggle_editor_sidebar_focus":["Ctrl y"],"toggle_left_sidebar":["Alt Shift H"],"top_popup":["Alt Shift K"]}
+# 
+zellij_keybindings = {"bottom_popup":["Alt Shift J"],"config":["Alt Shift C"],"menu":["Alt Shift M"],"move_focus_left_or_tab":["Alt h","Alt Left"],"move_focus_right_or_tab":["Alt l","Alt Right"],"next_family":["Alt ]"],"open_codex_agent_right":["Alt Shift L"],"open_workspace_terminal":["Alt m"],"previous_family":["Alt ["],"smart_reveal":["Alt r"],"toggle_editor_right_sidebar_focus":["Ctrl Shift Y"],"toggle_editor_sidebar_focus":["Ctrl y"],"toggle_left_sidebar":["Alt Shift H"],"top_popup":["Alt Shift K"]};
+
+
+# ==============================================================================
+# zellij_native_keybindings
+# JSON: zellij.native_keybindings
+# kind: string_list_map
+
+
+# default: {"go_to_tab_1":["Alt 1"],"go_to_tab_2":["Alt 2"],"go_to_tab_3":["Alt 3"],"go_to_tab_4":["Alt 4"],"go_to_tab_5":["Alt 5"],"go_to_tab_6":["Alt 6"],"go_to_tab_7":["Alt 7"],"go_to_tab_8":["Alt 8"],"go_to_tab_9":["Alt 9"],"locked_mode":["Ctrl Alt g"],"locked_mode_unbind":["Ctrl g"],"move_mode_unbind":["Ctrl h"],"move_pane_down":["Ctrl Alt j"],"move_pane_up":["Ctrl Alt k"],"move_tab_left":["Ctrl Alt h"],"move_tab_left_unbind":["Alt i"],"move_tab_right":["Ctrl Alt l"],"move_tab_right_unbind":["Alt o"],"new_pane_unbind":["Alt n"],"next_tab":["Alt w"],"pane_mode":["Ctrl p"],"pane_mode_unbind":[],"previous_tab":["Alt q"],"quit":["Ctrl q"],"quit_unbind":[],"resize_mode":["Ctrl n"],"resize_mode_unbind":[],"scroll_mode":["Ctrl Alt s"],"scroll_mode_unbind":["Ctrl s"],"selection_cycle_unbind":["Alt (","Alt )"],"session_mode":["Ctrl Alt o"],"session_mode_unbind":["Ctrl o"],"tab_mode":["Ctrl t"],"tab_mode_unbind":[],"tmux_mode_unbind":["Ctrl b"],"toggle_focus_fullscreen":["Alt Shift F"],"toggle_group_marking":["Ctrl Alt Shift P"],"toggle_pane_in_group":[],"toggle_pane_in_group_unbind":["Alt p"]}
+# 
+zellij_native_keybindings = {"go_to_tab_1":["Alt 1"],"go_to_tab_2":["Alt 2"],"go_to_tab_3":["Alt 3"],"go_to_tab_4":["Alt 4"],"go_to_tab_5":["Alt 5"],"go_to_tab_6":["Alt 6"],"go_to_tab_7":["Alt 7"],"go_to_tab_8":["Alt 8"],"go_to_tab_9":["Alt 9"],"locked_mode":["Ctrl Alt g"],"locked_mode_unbind":["Ctrl g"],"move_mode_unbind":["Ctrl h"],"move_pane_down":["Ctrl Alt j"],"move_pane_up":["Ctrl Alt k"],"move_tab_left":["Ctrl Alt h"],"move_tab_left_unbind":["Alt i"],"move_tab_right":["Ctrl Alt l"],"move_tab_right_unbind":["Alt o"],"new_pane_unbind":["Alt n"],"next_tab":["Alt w"],"pane_mode":["Ctrl p"],"pane_mode_unbind":[],"previous_tab":["Alt q"],"quit":["Ctrl q"],"quit_unbind":[],"resize_mode":["Ctrl n"],"resize_mode_unbind":[],"scroll_mode":["Ctrl Alt s"],"scroll_mode_unbind":["Ctrl s"],"selection_cycle_unbind":["Alt (","Alt )"],"session_mode":["Ctrl Alt o"],"session_mode_unbind":["Ctrl o"],"tab_mode":["Ctrl t"],"tab_mode_unbind":[],"tmux_mode_unbind":["Ctrl b"],"toggle_focus_fullscreen":["Alt Shift F"],"toggle_group_marking":["Ctrl Alt Shift P"],"toggle_pane_in_group":[],"toggle_pane_in_group_unbind":["Alt p"]};
+
+
+# ==============================================================================
+# zellij_opencode_go_usage_display
+# JSON: zellij.opencode_go_usage_display
+# kind: string (enum)
+# allowed: "token", "quota", "both"
+
+# default: "both"
+# 
+zellij_opencode_go_usage_display = "both";
+
+
+# ==============================================================================
+# zellij_opencode_go_usage_periods
+# JSON: zellij.opencode_go_usage_periods
+# kind: string_list (enum_string_list)
+# allowed: "5h", "week", "month"
+
+# default: ["5h","week","month"]
+# 
+zellij_opencode_go_usage_periods = ["5h","week","month"];
+
+
+# ==============================================================================
+# zellij_pane_frames
+# JSON: zellij.pane_frames
+# kind: bool
+
+
+# default: true
+# 
+zellij_pane_frames = true;
+
+
+# ==============================================================================
+# popup_commands
+# JSON: zellij.popup_commands
+# kind: string_list_map
+
+
+# default: {"bottom_popup":["lazygit"],"menu":["yzx","menu"],"top_popup":["yzx","config","ui"]}
+# 
+popup_commands = {"bottom_popup":["lazygit"],"menu":["yzx","menu"],"top_popup":["yzx","config","ui"]};
+
+
+# ==============================================================================
+# popup_height_percent
+# JSON: zellij.popup_height_percent
+# kind: int (int_range)
+
+# range: 1..100
+# default: 90
+# 
+popup_height_percent = 90;
+
+
+# ==============================================================================
+# popup_width_percent
+# JSON: zellij.popup_width_percent
+# kind: int (int_range)
+
+# range: 1..100
+# default: 90
+# 
+popup_width_percent = 90;
+
+
+# ==============================================================================
+# zellij_rounded_corners
+# JSON: zellij.rounded_corners
+# kind: bool
+
+
+# default: true
+# 
+zellij_rounded_corners = true;
+
+
+# ==============================================================================
+# screen_saver_enabled
+# JSON: zellij.screen_saver_enabled
+# kind: bool
+
+
+# default: false
+# 
+screen_saver_enabled = false;
+
+
+# ==============================================================================
+# screen_saver_idle_seconds
+# JSON: zellij.screen_saver_idle_seconds
+# kind: int (int_range)
+
+# range: 10..86400
+# default: 300
+# 
+screen_saver_idle_seconds = 300;
+
+
+# ==============================================================================
+# screen_saver_style
+# JSON: zellij.screen_saver_style
+# kind: string (enum)
+# allowed: "logo", "boids", "boids_predator", "boids_schools", "mandelbrot", "game_of_life_gliders", "game_of_life_oscillators", "game_of_life_bloom", "random"
+
+# default: "random"
+# 
+screen_saver_style = "random";
+
+
+# ==============================================================================
+# support_kitty_keyboard_protocol
+# JSON: zellij.support_kitty_keyboard_protocol
+# kind: bool
+
+
+# default: true
+# 
+support_kitty_keyboard_protocol = true;
+
+
+# ==============================================================================
+# zellij_tab_label_mode
+# JSON: zellij.tab_label_mode
+# kind: string (enum)
+# allowed: "full", "compact"
+
+# default: "full"
+# 
+zellij_tab_label_mode = "full";
+
+
+# ==============================================================================
+# zellij_theme
+# JSON: zellij.theme
+# kind: string
+
+
+# default: "default"
+# 
+zellij_theme = "default";
+
+
+# ==============================================================================
+# zellij_widget_frame
+# JSON: zellij.widget_frame
+# kind: string (enum)
+# allowed: "none", "square", "round"
+
+# default: "none"
+# 
+zellij_widget_frame = "none";
+
+
+# ==============================================================================
+# zellij_widget_separator
+# JSON: zellij.widget_separator
+# kind: string (enum)
+# allowed: "dot", "pipe", "empty", "space"
+
+# default: "dot"
+# 
+zellij_widget_separator = "dot";
+
+
+# ==============================================================================
+# zellij_widget_tray
+# JSON: zellij.widget_tray
+# kind: string_list (enum_string_list)
+# allowed: "session", "editor", "shell", "term", "workspace", "claude_usage", "codex_usage", "opencode_go_usage", "cpu", "ram"
+
+# default: ["session","editor","shell","term","codex_usage"]
+# 
+zellij_widget_tray = ["session","editor","shell","term","codex_usage"];
+
