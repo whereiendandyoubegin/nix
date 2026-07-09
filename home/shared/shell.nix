@@ -2,7 +2,7 @@
 
 {
   home.shellAliases = {
-    ns = "sudo nixos-rebuild switch --flake ~/cloned/nix --fast";
+    ns = "sudo nixos-rebuild switch --flake ~/cloned/nixpublic --fast";
     ga = "git add .";
     ndir = "cd ~/cloned/nix";  
   };
