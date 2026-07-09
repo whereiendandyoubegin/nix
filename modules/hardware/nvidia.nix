@@ -53,7 +53,8 @@ in
       RemainAfterExit = true;
       User = "root";
       Environment = "LD_LIBRARY_PATH=/run/opengl-driver/lib";
-      ExecStart = "${nvidia-oc}/bin/nvidia_oc set --index 0 --power-limit 290000 --freq-offset 100 --mem-offset 600 --min-clock 0 --max-clock 2000";
+      ExecStart = "${nvidia-oc}/bin/nvidia_oc set --index 0 --power-limit 350000 --freq-offset 100 --mem-offset 600 --min-clock 0 --max-clock 2000";
     };
   };
 }
+
