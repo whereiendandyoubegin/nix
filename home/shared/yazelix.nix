@@ -228,7 +228,6 @@ xdg.configFile."yazelix/shell_nu.nu".text = ''
 xdg.configFile."yazelix/helix/languages.toml".text = ''
   [language-server.rust-analyzer.config]
   check.command = "clippy"
-  check.extraArgs = ["--", "-W", "clippy::all", "-W", "clippy::pedantic", "-W", "clippy::nursery"]
   check.workspace = true
   cargo.features = "all"
   cargo.buildScripts.enable = true
@@ -259,7 +258,7 @@ xdg.configFile."yazelix/helix/languages.toml".text = ''
   hover.actions.debug.enable = true
   hover.documentation.enable = true
   hover.show.enumVariants = 20
-  hover.show.fields = 20
+  hover.show.tructFields = 20
   hover.show.traitAssocItems = 20
   assist.emitMustUse = true
   assist.expressionFillDefault = "todo"
@@ -278,9 +277,99 @@ xdg.configFile."yazelix/helix/languages.toml".text = ''
   [[language]]
   name = "rust"
   auto-format = true
-  formatter = { command = "rustfmt", args = ["--edition", "2021"] }
+  formatter = { command = "rustfmt", args = ["--edition", "2024"] }
 '';
+xdg.configFile."yazelix/helix/config.toml".text = ''
+  theme = "ayu_evolve"
 
+  [editor]
+  auto-format = true
+  bufferline = "always"
+  color-modes = true
+  cursorline = true
+  end-of-line-diagnostics = "hint"
+
+  [editor.lsp]
+  display-inlay-hints = true
+
+  [editor.cursor-shape]
+  insert = "bar"
+
+  [editor.file-picker]
+  hidden = true
+
+  [editor.indent-guides]
+  render = true
+
+  [editor.inline-diagnostics]
+  cursor-line = "warning"
+
+  [editor.soft-wrap]
+  enable = true
+
+  [editor.statusline]
+  center = ["file-name"]
+  left = [
+      "mode",
+      "spinner",
+      "version-control",
+  ]
+  right = [
+      "diagnostics",
+      "selections",
+      "position",
+      "total-line-numbers",
+      "position-percentage",
+      "file-encoding",
+  ]
+  separator = "│"
+
+  [keys.normal]
+  ":" = "command_mode"
+  A-r = ':sh yzx reveal "%{buffer_name}"'
+  A-ret = [
+      "move_line_up",
+      "goto_first_nonwhitespace",
+  ]
+  C-j = [
+      "extend_to_line_bounds",
+      "delete_selection",
+      "paste_after",
+  ]
+  C-k = [
+      "extend_to_line_bounds",
+      "delete_selection",
+      "move_line_up",
+      "paste_before",
+  ]
+  C-r = [
+      ":config-reload",
+      ":reload",
+  ]
+  X = "extend_line_up"
+  ret = [
+      "move_line_down",
+      "goto_first_nonwhitespace",
+  ]
+  "{" = "goto_prev_paragraph"
+  "}" = "goto_next_paragraph"
+
+  [keys.normal.A-g]
+  b = ":sh git blame -L %{cursor_line},+1 %{buffer_name}"
+  l = ":sh git log --oneline -10 %{buffer_name}"
+  s = ":sh git status --porcelain"
+
+  [keys.normal.backspace]
+  c = ":config-open"
+  d = ":yank-diagnostic"
+  h = ":toggle-option file-picker.hidden"
+  i = ":toggle-option file-picker.git-ignore"
+  l = ":o ~/.config/yazelix/helix/languages.toml"
+
+  [keys.normal.g]
+  e = "goto_file_end"
+
+'';
 }
 
  

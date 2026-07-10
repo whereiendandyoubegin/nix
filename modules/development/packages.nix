@@ -5,9 +5,8 @@ with pkgs; [
   git github-cli vim vscode gimp
   
   # Programming languages
-  go nodejs python3 openjdk21 clang llvm lld rustc cargo
+  go nodejs python3 openjdk21 clang llvm lld 
   elixir (lib.lowPrio elixir-ls)
-  rust-analyzer rustfmt clippy
   
   # Editors
   zed-editor nil niri playerctl ninja libreoffice
@@ -81,7 +80,7 @@ with pkgs; [
   
   # Development tools
   python3Packages.python-lsp-server clang-tools
-  rust-analyzer arduino-ide openssl pkg-config uv
+  arduino-ide openssl pkg-config uv
   yazi
   
   # Terminals
@@ -94,4 +93,12 @@ with pkgs; [
   
   # Custom packages
   inputs.caelestia.packages.${system}.default
+  (inputs.fenix.packages.${system}.stable.withComponents [
+    "cargo"
+    "clippy"
+    "rustc"
+    "rustfmt"
+    "rust-src"
+  ])
+  inputs.fenix.packages.${system}.stable.rust-analyzer
 ]
