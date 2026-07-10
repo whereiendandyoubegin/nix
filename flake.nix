@@ -34,9 +34,14 @@
       url = "git+https://git.dan-gilmour.com/dan/steel-plugin-nix.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, caelestia, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, caelestia, fenix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -47,7 +52,7 @@
       nixosConfigurations = {
         dan-nix = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs fenix; };
           modules = [
             ./modules/system/overlays.nix
             ./hosts/desktop/configuration.nix
