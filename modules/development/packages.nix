@@ -7,7 +7,7 @@ with pkgs; [
   # Programming languages
   go nodejs python3 openjdk21 clang llvm lld rustc cargo
   elixir (lib.lowPrio elixir-ls)
-  rust-analyzer
+  rust-analyzer rustfmt clippy
   
   # Editors
   zed-editor nil niri playerctl ninja libreoffice
