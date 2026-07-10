@@ -67,6 +67,7 @@
     binds {
       Mod+Shift+Slash { show-hotkey-overlay; }
       Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+      Mod+Y hotkey-over-title="Open Yazelix" { spawn "yzx launch" }
       Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
       Mod+M hotkey-overlay-title="Music Player Controls" { spawn "/home/dan/.local/bin/music-popup"; }
       Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }

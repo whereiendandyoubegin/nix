@@ -44,6 +44,23 @@ in
 
   environment.systemPackages = [ nvidia-oc ];
 
+  environment.etc."nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json".text = builtins.toJSON {
+    rules = [
+      {
+        pattern = { feature = "procname"; matches = "niri"; };
+        profile = "Limit Free Buffer Pool On Wayland Compositors";
+      }
+    ];
+    profiles = [
+      {
+        name = "Limit Free Buffer Pool On Wayland Compositors";
+        settings = [
+          { key = "GLVidHeapReuseRatio"; value = 0; }
+        ];
+      }
+    ];
+  };
+
   systemd.services.nvidia-oc = {
     description = "NVML-based GPU clock offset";
     after = [ "multi-user.target" ];
@@ -53,7 +70,7 @@ in
       RemainAfterExit = true;
       User = "root";
       Environment = "LD_LIBRARY_PATH=/run/opengl-driver/lib";
-      ExecStart = "${nvidia-oc}/bin/nvidia_oc set --index 0 --power-limit 350000 --freq-offset 100 --mem-offset 600 --min-clock 0 --max-clock 2000";
+      ExecStart = "${nvidia-oc}/bin/nvidia_oc set --index 0 --power-limit 350000 --freq-offset 100 --mem-offset 800 --min-clock 0 --max-clock 2000";
     };
   };
 }

@@ -20,7 +20,7 @@
     # transparency = "none";
 
     runtime_tool_sources = {
-      yazi = "host";
+      yazi = "bundled";
       helix = "bundled";
     };
     steelPlugins =
@@ -121,9 +121,47 @@
             support_files = [ "helix-discord-rpc.scm" ];
             public_commands = [ "discord-rpc-connect" ];
             startup_commands = [ "discord-rpc-connect" ];
-          })
+          }) 
       ];
     };
+xdg.configFile."yazelix/shell_nu.nu".text = ''
+  $env.config = {
+    show_banner: false
+  }
+
+  $env.STARSHIP_SHELL = "nu"
+
+  def --env starship_prompt [] {
+    starship prompt
+  }
+
+  $env.PATH = ($env.PATH | prepend $"($env.HOME)/.local/bin" | prepend $"/etc/profiles/per-user/($env.USER)/bin")
+  $env.PROMPT_COMMAND = { || starship_prompt }
+  $env.PROMPT_INDICATOR = ""
+  $env.PROMPT_MULTILINE_INDICATOR = "… "
+
+  if ("SSH_AUTH_SOCK" not-in $env) or ($env.SSH_AUTH_SOCK | is-empty) or ("SSH_CONNECTION" not-in $env) or ($env.SSH_CONNECTION | is-empty) {
+    $env.SSH_AUTH_SOCK = $"($env.XDG_RUNTIME_DIR)/ssh-agent"
+  }
+
+  use /nix/store/bhx27fhx53clh3xckp5l7g6lbi2mk5j9-starship-nushell-config.nu
+
+  let keychain_shell_command = (SHELL=bash /nix/store/y4d76k8fvlaah1pacjx4c8nmsqcdq197-keychain-2.9.8/bin/keychain --eval --quiet id_ed25519| parse -r '(\w+)="?(.*?)"?; export \1' | transpose -ird)
+  if not ($keychain_shell_command|is-empty) {
+    $keychain_shell_command | load-env
+  }
+  
+  alias "ns" = sudo nixos-rebuild switch --flake ~/cloned/nixpublic --fast
+  alias "cloned" = cd ~/cloned
+
+  if $nu.is-interactive {
+    source ~/.zoxide.nu
+
+    def --env --wrapped cd [...path] {
+        __zoxide_z ...$path
+    }
+  }
+'';
 xdg.configFile."yazelix/helix/languages.toml".text = ''
   [language-server.rust-analyzer.config]
   check.command = "clippy"

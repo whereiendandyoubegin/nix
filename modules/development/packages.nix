@@ -16,7 +16,7 @@ with pkgs; [
   zsh bash-completion tmux htop glances tree ncdu
   jq yq ripgrep fd fzf bat less nano
   wget curl nmap arp-scan bind.dnsutils whois rsync pv
-  inxi plocate nushell
+  inxi plocate nushell nushellPlugins.query zoxide
   
   # DevOps tools
   kubectl terraform ansible docker-compose podman
@@ -56,6 +56,7 @@ with pkgs; [
   # Networking
   networkmanager-openvpn networkmanager-openconnect
   mullvad-vpn wireguard-tools openresolv
+  curl-impersonate
   
   # System utilities
   firewalld nix-index pavucontrol ffmpeg
