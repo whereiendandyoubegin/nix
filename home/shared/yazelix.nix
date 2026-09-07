@@ -9,6 +9,8 @@ let
     hash = "sha256-N4Y78H9HDJernQkdH+24tylfl1bleBZewTB7Fk9LlGg=";
   };
 
+  helixConfigSrc = pkgs.fetchFromGitHub helixConfigRepo;
+
   plugins = spn.collect [
     (spn.fromGitHub (helixConfigRepo // {
       id = "keymaps";
@@ -92,12 +94,16 @@ let
     })
   ];
 
-  requireLine = m: ''(require "steel_plugins/${m.id}/${m.source}")'';
+  requireLine = m: ''(require "steel_plugins/${m.source}")'';
   allProvided = lib.concatMap (m: m.public_commands or [ ]) plugins.manifests;
   allStartup = lib.concatMap (m: m.startup_commands or [ ]) plugins.manifests;
 
   helixScm = ''
     ${lib.concatMapStringsSep "\n" requireLine plugins.manifests}
+
+    (require "cogs/themes/spacemacs.scm")
+    (require (only-in "helix/commands.scm" theme))
+    (theme "spacemacs")
 
     (provide
       ${lib.concatStringsSep "\n  " allProvided})
@@ -110,7 +116,10 @@ in
     inputs.yazelix.homeManagerModules.default
   ];
 
-  home.file = plugins.homeFiles // plugins.nativeFiles;
+  home.file = plugins.homeFiles // plugins.nativeFiles // {
+    ".config/yazelix/helix/cogs/themes/spacemacs.scm".source =
+      "${helixConfigSrc}/cogs/themes/spacemacs.scm";
+  };
 
   programs.yazelix = {
     enable = true;

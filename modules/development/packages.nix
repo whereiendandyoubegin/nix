@@ -89,6 +89,7 @@ with pkgs; [
   bc starship zenity
   claude-code
   nix-fast-build
+  fastfetch
   
   # Custom packages
   inputs.caelestia.packages.${system}.default
