@@ -1,11 +1,16 @@
 { config, pkgs, lib, inputs, ... }:
-
 let
   nuPkgs = inputs.yazelix.inputs.nixpkgs.legacyPackages.${pkgs.system};
   nushellPlugins = nuPkgs.nushellPlugins;
   pluginNamesNixpkgs = [ "polars" "query" ];
-
-  activateNushellPluginsNuScript = nuPkgs.writeTextFile {
+  nu_plugin_typetree = nuPkgs.rustPlatform.buildRustPackage {
+    pname = "nu_plugin_typetree";
+    version = "0.113.1";
+    src = inputs.nu_plugin_typetree;
+    cargoLock.lockFile = "${inputs.nu_plugin_typetree}/Cargo.lock";
+    doCheck = false;
+  };
+activateNushellPluginsNuScript = nuPkgs.writeTextFile {
     name = "activateNushellPlugins";
     destination = "/bin/activateNushellPlugins.nu";
     text = ''
@@ -13,9 +18,9 @@ let
       ${
         lib.concatStringsSep "\n" (map (x: "plugin add ${nushellPlugins.${x}}/bin/nu_plugin_${x}") pluginNamesNixpkgs)
       }
+      plugin add ${nu_plugin_typetree}/bin/nu_plugin_typetree
     '';
   };
-
   msgPackz = nuPkgs.runCommand "nushellMsgPackz" {} ''
     mkdir -p "$out"
     ${nuPkgs.nushell}/bin/nu --plugin-config "$out/plugin.msgpackz" ${activateNushellPluginsNuScript}/bin/activateNushellPlugins.nu
@@ -27,9 +32,7 @@ in
     ga = "git add .";
     ndir = "cd ~/cloned/nix";
   };
-
   xdg.configFile."nushell/plugin.msgpackz".source = "${msgPackz}/plugin.msgpackz";
-
   programs.nushell = {
     enable = true;
     configFile.text = ''
@@ -46,7 +49,6 @@ in
       $env.PROMPT_MULTILINE_INDICATOR = "… "
     '';
   };
-
   programs.starship = {
     enable = true;
     settings = {
@@ -72,7 +74,6 @@ in
       };
     };
   };
-
   services.ssh-agent.enable = true;
   programs.ssh = {
     enable = true;

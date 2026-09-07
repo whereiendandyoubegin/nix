@@ -5,8 +5,8 @@
       experimental-features = [ "nix-command" "flakes" ];
       
       # Build optimizations for Ryzen 5 5600X
-      max-jobs = 12;
-      cores = 6;
+      max-jobs = "auto";
+      cores = 0;
       builders-use-substitutes = true;
       auto-optimise-store = true;
 
@@ -25,6 +25,8 @@
         "https://nix-community.cachix.org"
         "https://yazelix.cachix.org"
       ];
+
+      fallback = true;
       
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="

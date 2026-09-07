@@ -9,7 +9,7 @@ with pkgs; [
   elixir (lib.lowPrio elixir-ls)
   
   # Editors
-  zed-editor nil niri playerctl ninja libreoffice
+  nil niri playerctl ninja 
   
   # Shell tools
   zsh bash-completion tmux htop glances tree ncdu
@@ -24,20 +24,20 @@ with pkgs; [
   
   # Desktop applications
   firefox discord element-desktop 
-  vlc obs-studio spotify qbittorrent
-  obsidian keepassxc meld brave calibre appflowy
+  vlc obs-studio qbittorrent
+  keepassxc meld brave calibre appflowy
   nyxt spotify-player
   
   # KDE applications
-  kdePackages.spectacle kdePackages.gwenview
-  kdePackages.dolphin kdePackages.ark
-  kdePackages.okular kdePackages.kate kdePackages.kcalc
+  # kdePackages.spectacle kdePackages.gwenview
+  # kdePackages.dolphin kdePackages.ark
+  # kdePackages.okular kdePackages.kate kdePackages.kcalc
   
   # Compression
   unzip unrar zip
   
   # Gaming
-  retroarch dolphin-emu lutris winetricks steam
+  retroarch lutris winetricks steam
   # wineWowPackages.stable
   gamescope
   
@@ -76,7 +76,6 @@ with pkgs; [
   
   # Graphics
   mesa-demos vulkan-tools nvidia-vaapi-driver libva-utils
-  blender freecad
   
   # Development tools
   python3Packages.python-lsp-server clang-tools

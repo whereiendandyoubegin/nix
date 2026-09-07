@@ -26,7 +26,7 @@
     };
 
     yazelix = {
-      url = "github:luccahuguet/yazelix";
+      url = "github:luccahuguet/yazelix/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -37,6 +37,11 @@
 
     fenix = {
       url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nu_plugin_typetree = {
+      url = "github:whereiendandyoubegin/nu_plugin_typetree";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
