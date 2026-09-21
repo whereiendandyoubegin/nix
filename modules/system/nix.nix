@@ -13,6 +13,14 @@
       max-substitution-jobs = 128;
 
       download-buffer-size = 1073741824;
+
+      min-free = 10737418240;
+      max-free = 32212254720;
+
+      connect-timeout = 5;
+      narinfo-cache-negative-ttl = 60;
+      keep-going = true;
+      warn-dirty = false;
       
       # Trust and flake-config auto-accept
       trusted-users = [ "root" "dan" ];
@@ -38,7 +46,7 @@
         "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "yazelix.cachix.org-1:ZgxIjQvaP0VTWL8Racx27mpUNzDJ97xC2y7QWYjmGNM="
-        "fenix.cachix.org-1:76dBw987+0be16pIeeclH9D6f29U2S0uG88h4+P6Zk0="
+        "fenix.cachix.org-1:ecJhr+RdYEdcVgUkjruiYhjbBloIEGov7bos90cZi0Q="
         "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
         "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       ];
@@ -48,11 +56,11 @@
       {
         hostName = "flake-updater";
         sshUser = "dan";
-        sshKey = "/home/dan/.ssh/id_ed25519";
+        sshKey = "/home/dan/.ssh/id_ed25519_nixology";
         system = "x86_64-linux";
         protocol = "ssh-ng";
-        maxJobs = 8;
-        speedFactor = 2;
+        maxJobs = 4;
+        speedFactor = 1;
         supportedFeatures = [ "big-parallel" "benchmark" ];
       }
     ];
@@ -65,10 +73,12 @@
     };
   };
 
+  programs.ssh.knownHosts."flake-updater".publicKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMJ1tdDkbHls2a7An/DojGIwiaov/mfdzN/cKI0GpZW";
+
   programs.ssh.extraConfig = ''
     Host flake-updater
       User dan
-      IdentityFile /home/dan/.ssh/id_ed25519
-      StrictHostKeyChecking accept-new
+      IdentityFile /home/dan/.ssh/id_ed25519_nixology
   '';
 }
