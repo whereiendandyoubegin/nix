@@ -3,6 +3,7 @@
 with pkgs; [
   # Core tools
   git github-cli vim vscode gimp
+  flatpak
   
   # Programming languages
   go nodejs python3 openjdk21 clang llvm lld 
@@ -26,7 +27,7 @@ with pkgs; [
   firefox discord element-desktop 
   vlc obs-studio qbittorrent
   keepassxc meld brave calibre appflowy
-  nyxt spotify-player
+  nyxt spotify-player spotatui
   
   # KDE applications
   # kdePackages.spectacle kdePackages.gwenview
@@ -90,6 +91,7 @@ with pkgs; [
   claude-code
   nix-fast-build
   fastfetch
+  codex
   
   # Custom packages
   inputs.caelestia.packages.${system}.default

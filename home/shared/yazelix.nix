@@ -131,6 +131,7 @@ in
         shell.atuin = true;
         welcome.enabled = true;
         welcome.style = "random";
+        sidebar.command = "yzx-yazi";
       };
 
       helix = {
@@ -281,6 +282,9 @@ in
           name = "rust"
           auto-format = true
           formatter = { command = "rustfmt", args = ["--edition", "2024"] }
+
+          [language-server.nil.config.nil.nix.flake]
+          autoArchive = false
         '';
       };
 

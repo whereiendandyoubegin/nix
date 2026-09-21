@@ -2,19 +2,18 @@
 {
   programs.helix = {
 	        enable = true;
-	
+
 	        extraPackages = with pkgs; [
 	          # Language servers
 	          python3Packages.python-lsp-server
 	          typescript-language-server
 	          gopls
 	          clang-tools
-	          rust-analyzer
 	          nil
             elixir-ls
             haskell-language-server
 	        ];
-	
+
 	        settings = {
 	          theme = "gruvbox";
 
@@ -83,14 +82,14 @@
 	            };
 	          };
 	        };
-	
+
 	        languages = {
 	          # Language server definitions
 	          language-server.clangd = {
 	            command = "clangd";
 	            args = ["--background-index" "--clang-tidy"];
 	          };
-	    
+
 	          language-server.pylsp = {
 	            command = "pylsp";
 	            config.pylsp.plugins = {
@@ -100,7 +99,7 @@
 	              flake8 = { enabled = false; };
 	            };
 	          };
-	    
+
 	          language-server.gopls = {
 	            command = "gopls";
 	          };
@@ -113,12 +112,12 @@
               command = "haskell-language-server-wrapper";
               args = ["--lsp"];
             };
-	
+
 	          language-server.typescript-language-server = {
 	            command = "typescript-language-server";
 	            args = ["--stdio"];
 	          };
-	
+
 	          # Language configurations with proper scopes
 	          language = [
 	            {

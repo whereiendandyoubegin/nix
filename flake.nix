@@ -4,17 +4,17 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-            
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     zaphkiel = {
       url = "github:Rexcrazy804/Zaphkiel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +26,7 @@
     };
 
     yazelix = {
-      url = "github:luccahuguet/yazelix/stable";
+      url = "github:luccahuguet/yazelix/edge";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -69,7 +69,7 @@
             ./modules/desktop/plasma.nix
             ./modules/development/virtualisation.nix
             ./modules/system/kernel.nix
-            
+
             home-manager.nixosModules.home-manager
             {
               home-manager = {
