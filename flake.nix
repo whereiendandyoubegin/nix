@@ -15,15 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    caelestia = {
-      url = "git+https://git.dan-gilmour.com/dan/flake-only.git";
-      inputs.quickshell.follows = "quickshell";
-    };
+    caelestia.url = "github:caelestia-dots/shell";
 
     yazelix = {
       url = "github:luccahuguet/yazelix/edge";

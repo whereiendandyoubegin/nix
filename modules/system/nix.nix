@@ -4,9 +4,8 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       
-      # Build optimizations for Ryzen 5 5600X
-      max-jobs = "auto";
-      cores = 0;
+      max-jobs = 4;
+      cores = 3;
       builders-use-substitutes = true;
       auto-optimise-store = true;
 
@@ -21,25 +20,55 @@
       
       # Binary caches
       substituters = [
+        "http://nix-cache.thesta.rs"
         "https://cache.nixos.org/"
+        "https://nyx-cache.chaotic.cx/"
         "https://nix-community.cachix.org"
         "https://yazelix.cachix.org"
         "https://fenix.cachix.org"
-        "http://nix-cache.thesta.rs"
+        "https://crane.cachix.org"
+        "https://helix.cachix.org"
       ];
 
       fallback = true;
-      
+
       trusted-public-keys = [
+        "nix-cache.local-1:9YjK620BxyXAl7uPGRrzxmxdWB5Z5jwqfcB29s0OV2E="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "yazelix.cachix.org-1:ZgxIjQvaP0VTWL8Racx27mpUNzDJ97xC2y7QWYjmGNM="
         "fenix.cachix.org-1:76dBw987+0be16pIeeclH9D6f29U2S0uG88h4+P6Zk0="
-        "nix-cache.local-1:9YjK620BxyXAl7uPGRrzxmxdWB5Z5jwqfcB29s0OV2E="
+        "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
+        "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       ];
     };
     
-    buildMachines = [ ];
-    distributedBuilds = false;
+    buildMachines = [
+      {
+        hostName = "flake-updater";
+        sshUser = "dan";
+        sshKey = "/home/dan/.ssh/id_ed25519";
+        system = "x86_64-linux";
+        protocol = "ssh-ng";
+        maxJobs = 8;
+        speedFactor = 2;
+        supportedFeatures = [ "big-parallel" "benchmark" ];
+      }
+    ];
+    distributedBuilds = true;
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
+
+  programs.ssh.extraConfig = ''
+    Host flake-updater
+      User dan
+      IdentityFile /home/dan/.ssh/id_ed25519
+      StrictHostKeyChecking accept-new
+  '';
 }
