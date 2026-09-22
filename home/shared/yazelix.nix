@@ -1,98 +1,25 @@
-{ inputs, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 let
   spn = inputs.steel-plugin-nix.lib.${pkgs.system};
 
-  helixConfigRepo = {
-    owner = "mattwparas";
-    repo = "helix-config";
-    rev = "a101da0852932f10792f098dbb14ea88811985ff";
-    hash = "sha256-N4Y78H9HDJernQkdH+24tylfl1bleBZewTB7Fk9LlGg=";
-  };
+  tomlFormat = pkgs.formats.toml { };
+  
+  starshipNuInit = pkgs.runCommand "starship-nushell-config.nu" { } ''
+    ${lib.getExe config.programs.starship.package} init nu >> "$out"
+  '';
+
+  keychainBin = lib.getExe config.programs.keychain.package;
+
+    pluginSpecs = import ./helixplugins.nix;
+
+  helixConfigRepo = pluginSpecs.helixConfigRepo;
 
   helixConfigSrc = pkgs.fetchFromGitHub helixConfigRepo;
 
-  plugins = spn.collect [
-    (spn.fromGitHub (helixConfigRepo // {
-      id = "keymaps";
-      source = "cogs/keymaps.scm";
-    }))
-    (spn.fromGitHub (helixConfigRepo // {
-      id = "labelled-buffers";
-      source = "cogs/labelled-buffers.scm";
-    }))
-    (spn.fromGitHub (helixConfigRepo // {
-      id = "git-status-picker";
-      source = "cogs/git-status-picker.scm";
-      public_commands = [ "create-gs-picker" "add-modified-file" ];
-    }))
-    (spn.fromGitHub (helixConfigRepo // {
-      id = "file-tree";
-      source = "cogs/file-tree.scm";
-      public_commands = [
-        "open-file-from-picker"
-        "create-file"
-        "fold-directory"
-        "create-directory"
-        "fold-all"
-        "unfold-all-one-level"
-      ];
-    }))
-    (spn.fromGitHub {
-      owner = "thomasschafer";
-      repo = "smooth-scroll.hx";
-      rev = "1ed8b088e465fb139389c36ad158ba4a2d9e1bbc";
-      hash = "sha256-4lxGZrT4cEcg3jqae3uJGGGCSy4WeVZeJ0hIApMb7jY=";
-      id = "smooth-scroll";
-      source = "smooth-scroll.scm";
-      support_files = [ "src/utils.scm" ];
-      public_commands = [
-        "half-page-up-smooth"
-        "half-page-down-smooth"
-        "page-up-smooth"
-        "page-down-smooth"
-      ];
-    })
-    (spn.fromCompiledGitHub {
-      owner = "whereiendandyoubegin";
-      repo = "scooter.hx";
-      rev = "41fce7910a6ddf54dc34e96093804ab467ab9d48";
-      hash = "sha256-w1otVo8MCSOJUf0rfLoNCEt1jduThMid2Meli3Kq8A4=";
-      id = "scooter";
-      source = "scooter.scm";
-      support_files = [
-        "ui/window.scm"
-        "ui/fields.scm"
-        "ui/drawing.scm"
-        "ui/styles.scm"
-        "ui/utils.scm"
-      ];
-      public_commands = [ "scooter" "scooter-new" ];
-    })
-    (spn.fromCompiledGitHub {
-      owner = "mattwparas";
-      repo = "helix-file-watcher";
-      rev = "e118b7552ec7697c560a24b48880c92d6aa4476e";
-      hash = "sha256-AvUihtnJtVZ6cLJJrNzhTmt/ZT1lZzprCRbuAfbzRc0=";
-      id = "helix-file-watcher";
-      source = "file-watcher.scm";
-      support_files = [ "helix-file-watcher.scm" ];
-      public_commands = [ "spawn-watcher" ];
-      outputHashes = {
-        "steel-core-0.8.2" = "sha256-qPDz0ax290E7UEFTDfrmLmsn1r9dIuOxMiRmNrDkfZo=";
-      };
-    })
-    (spn.fromCompiledGitHub {
-      owner = "Ciflire";
-      repo = "presence.hx";
-      rev = "5b5f134c30c3a3d9a6f3565e8cc56973230bc7ef";
-      hash = "sha256-L+fExKl4X1BHi+BIKHgBPtqyHHjqAc0qwyvCq8c0B0E=";
-      id = "helix-discord-rpc";
-      source = "helix-discord-rpc.scm";
-      support_files = [ "helix-discord-rpc.scm" ];
-      public_commands = [ "discord-rpc-connect" ];
-      startup_commands = [ "discord-rpc-connect" ];
-    })
-  ];
+  plugins = spn.collect (
+    map spn.fromGitHub pluginSpecs.interpreted
+    ++ map spn.fromCompiledGitHub pluginSpecs.compiled
+  );
 
   requireLine = m: ''(require "steel_plugins/${m.source}")'';
   allProvided = lib.concatMap (m: m.public_commands or [ ]) plugins.manifests;
@@ -110,6 +37,183 @@ let
   '';
 
   initScm = lib.concatMapStringsSep "\n" (cmd: "(${cmd})") allStartup;
+
+  helixSettings = {
+    theme = "spacemacs";
+
+    editor = {
+      auto-format = true;
+      bufferline = "always";
+      color-modes = true;
+      cursorline = true;
+      end-of-line-diagnostics = "hint";
+
+      lsp.display-inlay-hints = true;
+      cursor-shape.insert = "bar";
+      file-picker.hidden = true;
+      indent-guides.render = true;
+      inline-diagnostics.cursor-line = "warning";
+      soft-wrap.enable = true;
+
+      statusline = {
+        center = [ "file-name" ];
+        left = [
+          "mode"
+          "spinner"
+          "version-control"
+        ];
+        right = [
+          "diagnostics"
+          "selections"
+          "position"
+          "total-line-numbers"
+          "position-percentage"
+          "file-encoding"
+        ];
+        separator = "│";
+      };
+    };
+
+    keys.normal = {
+      ":" = "command_mode";
+      A-r = '':sh yzx reveal "%{buffer_name}"'';
+      A-ret = [
+        "move_line_up"
+        "goto_first_nonwhitespace"
+      ];
+      C-j = [
+        "extend_to_line_bounds"
+        "delete_selection"
+        "paste_after"
+      ];
+      C-k = [
+        "extend_to_line_bounds"
+        "delete_selection"
+        "move_line_up"
+        "paste_before"
+      ];
+      C-r = [
+        ":config-reload"
+        ":reload"
+      ];
+      X = "extend_line_up";
+      ret = [
+        "move_line_down"
+        "goto_first_nonwhitespace"
+      ];
+      "{" = "goto_prev_paragraph";
+      "}" = "goto_next_paragraph";
+
+      A-g = {
+        b = ":sh git blame -L %{cursor_line},+1 %{buffer_name}";
+        l = ":sh git log --oneline -10 %{buffer_name}";
+        s = ":sh git status --porcelain";
+      };
+
+      backspace = {
+        c = ":config-open";
+        d = ":yank-diagnostic";
+        h = ":toggle-option file-picker.hidden";
+        i = ":toggle-option file-picker.git-ignore";
+        l = ":o ~/.config/yazelix/helix/languages.toml";
+      };
+
+      g.e = "goto_file_end";
+    };
+  };
+
+  # Native Helix language config, rendered to languages.toml.
+  helixLanguages = {
+    language-server = {
+      rust-analyzer.config = {
+        check = {
+          command = "clippy";
+          workspace = true;
+        };
+
+        cargo = {
+          features = "all";
+          buildScripts.enable = true;
+        };
+
+        procMacro.enable = true;
+
+        imports = {
+          granularity.group = "crate";
+          prefix = "crate";
+          merge.glob = false;
+        };
+
+        completion = {
+          autoimport.enable = true;
+          autoself.enable = true;
+          postfix.enable = true;
+          privateEditable.enable = true;
+          termSearch.enable = true;
+          fullFunctionSignatures.enable = true;
+          limit = 100;
+        };
+
+        signatureInfo = {
+          detail = "full";
+          documentation.enable = true;
+        };
+
+        diagnostics = {
+          experimental.enable = true;
+          styleLints.enable = true;
+        };
+
+        hover = {
+          actions = {
+            enable = true;
+            implementations.enable = true;
+            references.enable = true;
+            run.enable = true;
+            debug.enable = true;
+          };
+          documentation.enable = true;
+          show = {
+            enumVariants = 20;
+            # NOTE: upstream key is structFields; kept as-is to preserve the
+            # previous behaviour.
+            tructFields = 20;
+            traitAssocItems = 20;
+          };
+        };
+
+        assist = {
+          emitMustUse = true;
+          expressionFillDefault = "todo";
+        };
+
+        inlayHints = {
+          reborrowHints.enable = "mutable";
+          expressionAdjustmentHints.enable = "reborrow";
+          implicitDrops.enable = true;
+          closureCaptureHints.enable = true;
+          typeHints.enable = true;
+          parameterHints.enable = true;
+          chainingHints.enable = true;
+          bindingModeHints.enable = false;
+          lifetimeElisionHints.enable = "skip_trivial";
+        };
+      };
+
+      nil.config.nil.nix.flake.autoArchive = false;
+    };
+
+    language = [
+      {
+        name = "rust";
+        auto-format = true;
+        formatter = {
+          command = "rustfmt";
+          args = [ "--edition" "2024" ];
+        };
+      }
+    ];
+  };
 in
 {
   imports = [
@@ -138,154 +242,11 @@ in
         module.text = helixScm;
         init.text = initScm;
 
-        config.text = ''
-          theme = "ayu_evolve"
+        config.source =
+          tomlFormat.generate "yazelix-helix-config.toml" helixSettings;
 
-          [editor]
-          auto-format = true
-          bufferline = "always"
-          color-modes = true
-          cursorline = true
-          end-of-line-diagnostics = "hint"
-
-          [editor.lsp]
-          display-inlay-hints = true
-
-          [editor.cursor-shape]
-          insert = "bar"
-
-          [editor.file-picker]
-          hidden = true
-
-          [editor.indent-guides]
-          render = true
-
-          [editor.inline-diagnostics]
-          cursor-line = "warning"
-
-          [editor.soft-wrap]
-          enable = true
-
-          [editor.statusline]
-          center = ["file-name"]
-          left = [
-              "mode",
-              "spinner",
-              "version-control",
-          ]
-          right = [
-              "diagnostics",
-              "selections",
-              "position",
-              "total-line-numbers",
-              "position-percentage",
-              "file-encoding",
-          ]
-          separator = "│"
-
-          [keys.normal]
-          ":" = "command_mode"
-          A-r = ':sh yzx reveal "%{buffer_name}"'
-          A-ret = [
-              "move_line_up",
-              "goto_first_nonwhitespace",
-          ]
-          C-j = [
-              "extend_to_line_bounds",
-              "delete_selection",
-              "paste_after",
-          ]
-          C-k = [
-              "extend_to_line_bounds",
-              "delete_selection",
-              "move_line_up",
-              "paste_before",
-          ]
-          C-r = [
-              ":config-reload",
-              ":reload",
-          ]
-          X = "extend_line_up"
-          ret = [
-              "move_line_down",
-              "goto_first_nonwhitespace",
-          ]
-          "{" = "goto_prev_paragraph"
-          "}" = "goto_next_paragraph"
-
-          [keys.normal.A-g]
-          b = ":sh git blame -L %{cursor_line},+1 %{buffer_name}"
-          l = ":sh git log --oneline -10 %{buffer_name}"
-          s = ":sh git status --porcelain"
-
-          [keys.normal.backspace]
-          c = ":config-open"
-          d = ":yank-diagnostic"
-          h = ":toggle-option file-picker.hidden"
-          i = ":toggle-option file-picker.git-ignore"
-          l = ":o ~/.config/yazelix/helix/languages.toml"
-
-          [keys.normal.g]
-          e = "goto_file_end"
-        '';
-
-        languages.text = ''
-          [language-server.rust-analyzer.config]
-          check.command = "clippy"
-          check.workspace = true
-          cargo.features = "all"
-          cargo.buildScripts.enable = true
-          procMacro.enable = true
-
-          imports.granularity.group = "crate"
-          imports.prefix = "crate"
-          imports.merge.glob = false
-
-          completion.autoimport.enable = true
-          completion.autoself.enable = true
-          completion.postfix.enable = true
-          completion.privateEditable.enable = true
-          completion.termSearch.enable = true
-          completion.fullFunctionSignatures.enable = true
-          completion.limit = 100
-
-          signatureInfo.detail = "full"
-          signatureInfo.documentation.enable = true
-
-          diagnostics.experimental.enable = true
-          diagnostics.styleLints.enable = true
-
-          hover.actions.enable = true
-          hover.actions.implementations.enable = true
-          hover.actions.references.enable = true
-          hover.actions.run.enable = true
-          hover.actions.debug.enable = true
-          hover.documentation.enable = true
-          hover.show.enumVariants = 20
-          hover.show.tructFields = 20
-          hover.show.traitAssocItems = 20
-          assist.emitMustUse = true
-          assist.expressionFillDefault = "todo"
-
-          [language-server.rust-analyzer.config.inlayHints]
-          reborrowHints.enable = "mutable"
-          expressionAdjustmentHints.enable = "reborrow"
-          implicitDrops.enable = true
-          closureCaptureHints.enable = true
-          typeHints.enable = true
-          parameterHints.enable = true
-          chainingHints.enable = true
-          bindingModeHints.enable = false
-          lifetimeElisionHints.enable = "skip_trivial"
-
-          [[language]]
-          name = "rust"
-          auto-format = true
-          formatter = { command = "rustfmt", args = ["--edition", "2024"] }
-
-          [language-server.nil.config.nil.nix.flake]
-          autoArchive = false
-        '';
+        languages.source =
+          tomlFormat.generate "yazelix-helix-languages.toml" helixLanguages;
       };
 
       nu = {
@@ -302,21 +263,11 @@ in
             show_banner: false
           }
 
-          $env.STARSHIP_SHELL = "nu"
-
-          def --env starship_prompt [] {
-            starship prompt
-          }
-
           plugin use typetree
 
-          $env.PROMPT_COMMAND = { || starship_prompt }
-          $env.PROMPT_INDICATOR = ""
-          $env.PROMPT_MULTILINE_INDICATOR = "… "
+          use ${starshipNuInit}
 
-          use /nix/store/bhx27fhx53clh3xckp5l7g6lbi2mk5j9-starship-nushell-config.nu
-
-          let keychain_shell_command = (SHELL=bash /nix/store/y4d76k8fvlaah1pacjx4c8nmsqcdq197-keychain-2.9.8/bin/keychain --eval --quiet id_ed25519| parse -r '(\w+)="?(.*?)"?; export \1' | transpose -ird)
+          let keychain_shell_command = (SHELL=bash ${keychainBin} --eval --quiet id_ed25519| parse -r '(\w+)="?(.*?)"?; export \1' | transpose -ird)
           if not ($keychain_shell_command|is-empty) {
             $keychain_shell_command | load-env
           }
