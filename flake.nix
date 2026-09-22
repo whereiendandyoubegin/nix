@@ -22,6 +22,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dms-theme-registry = {
+      url = "github:AvengeMedia/dms-plugin-registry";
+      flake = false;
+    };
+
     yazelix = {
       url = "github:luccahuguet/yazelix/edge";
       inputs.nixpkgs.follows = "nixpkgs";

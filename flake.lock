@@ -222,6 +222,22 @@
         "type": "github"
       }
     },
+    "dms-theme-registry": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790074979,
+        "narHash": "sha256-nCywPts6lLQ4mmHZ2wuuDyQk1uur9prcHnsvu0109lM=",
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "rev": "6c99e2f41f842876a3e4f03c4de3aa2234b9f2b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dms-plugin-registry",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -876,6 +892,7 @@
         "caelestia": "caelestia",
         "chaotic": "chaotic",
         "dank-material-shell": "dank-material-shell",
+        "dms-theme-registry": "dms-theme-registry",
         "fenix": "fenix",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_3",

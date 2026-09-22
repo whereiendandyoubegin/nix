@@ -41,15 +41,40 @@
       WLR_NO_HARDWARE_CURSORS "1"
       NIXOS_OZONE_WL "1"
     }
+
+    layout {
+      gaps 4
+
+      border {
+        width 2
+      }
+
+      focus-ring {
+        width 2
+      }
+    }
+
+    recent-windows {
+      highlight {
+        corner-radius 16
+      }
+    }
+
+    blur {
+      passes 3
+      offset 4
+      noise 0.02
+      saturation 1.5
+    }
     
-    spawn-at-startup "dms" "run"
+    // spawn-at-startup "dms" "run"
     // spawn-at-startup "caelestia-shell"
-    spawn-at-startup "dunst"
+    // spawn-at-startup "dunst"
     spawn-at-startup "blueman-applet"
     spawn-at-startup "xwayland-satellite"
     spawn-at-startup "nm-applet" "--indicator"
     spawn-at-startup "xdg-desktop-portal-gtk"
-    spawn-at-startup "swaybg" "-i" "/home/dan/Downloads/zelda.jpg" "-m" "fill"
+    // spawn-at-startup "swaybg" "-i" "/home/dan/Downloads/zelda.jpg" "-m" "fill"
     spawn-at-startup "systemctl" "--user" "import-environment" "XDG_SESSION_TYPE" "XDG_CURRENT_DESKTOP"
     spawn-at-startup "dbus-update-activation-environment" "WAYLAND_DISPLAY"
     
@@ -61,6 +86,44 @@
     window-rule {
       match app-id="cs2"
       open-fullscreen true
+    }
+
+    window-rule {
+      geometry-corner-radius 16
+      clip-to-geometry true
+      tiled-state true
+      draw-border-with-background false
+    }
+
+    window-rule {
+      match app-id="^com.danklinux.dms$"
+      open-floating true
+    }
+
+    layer-rule {
+      match namespace="dms:blurwallpaper"
+      place-within-backdrop true
+    }
+
+    window-rule {
+      match app-id="^yzx$"
+      background-effect {
+        blur true
+      }
+    }
+
+    window-rule {
+      match app-id="^com.mitchellh.ghostty$"
+      background-effect {
+        blur true
+      }
+    }
+
+    layer-rule {
+      match namespace="^launcher$"
+      background-effect {
+        blur true
+      }
     }
 
     binds {
@@ -183,5 +246,7 @@
       Ctrl+Alt+Delete { quit; }
       Mod+Shift+P { power-off-monitors; }
     }
+
+    include optional=true "dms/colors.kdl"
       '';
 }

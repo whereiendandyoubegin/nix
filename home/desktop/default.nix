@@ -11,6 +11,7 @@
     ./dunst.nix
     inputs.dank-material-shell.homeModules.dank-material-shell
     ./dms.nix
+    ./wallpapers.nix
   ];
 
   home.stateVersion = "24.11";
