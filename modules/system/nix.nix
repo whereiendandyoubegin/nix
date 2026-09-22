@@ -22,11 +22,9 @@
       keep-going = true;
       warn-dirty = false;
       
-      # Trust and flake-config auto-accept
       trusted-users = [ "root" "dan" ];
       accept-flake-config = true;
       
-      # Binary caches
       substituters = [
         "http://nix-cache.thesta.rs"
         "https://cache.nixos.org/"

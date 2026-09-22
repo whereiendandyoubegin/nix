@@ -184,6 +184,44 @@
         "type": "github"
       }
     },
+    "dank-material-shell": {
+      "inputs": {
+        "dank-qml-common": "dank-qml-common",
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790109821,
+        "narHash": "sha256-mvnO9wC1bFMkhgIW6DnGZecWvWBli2R7XnLhw8NPW8U=",
+        "owner": "AvengeMedia",
+        "repo": "DankMaterialShell",
+        "rev": "89484b5d85ade9bc9a35739caeec6cecb51eae2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "DankMaterialShell",
+        "type": "github"
+      }
+    },
+    "dank-qml-common": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790108367,
+        "narHash": "sha256-eQv3ahrgVH6OAS8o9SGxFACNxMVOwHfRm8KGdJDWa4Y=",
+        "owner": "AvengeMedia",
+        "repo": "dank-qml-common",
+        "rev": "928cc746e57e4e2a06a5ee40fe137e425fcd8cfe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AvengeMedia",
+        "repo": "dank-qml-common",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -248,6 +286,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "fenix",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "flake-compat",
         "type": "github"
       }
     },
@@ -821,6 +875,7 @@
       "inputs": {
         "caelestia": "caelestia",
         "chaotic": "chaotic",
+        "dank-material-shell": "dank-material-shell",
         "fenix": "fenix",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_3",

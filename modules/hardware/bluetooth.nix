@@ -6,7 +6,7 @@
     settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";
-        Experimental = true; # needed for battery reporting + some codec negotiation paths
+        Experimental = true;
         ControllerMode = "bredr";
         DeviceID = "bluetooth:004C:0000:0000";
       };
@@ -19,7 +19,7 @@
 
   services.pipewire = {
     enable = true;
-    pulse.enable = true; # gets you pactl back
+    pulse.enable = true;
     wireplumber.extraConfig."51-bluez" = {
       "monitor.bluez.properties" = {
         "bluez5.roles" = [ "a2dp_sink" "a2dp_source" ];

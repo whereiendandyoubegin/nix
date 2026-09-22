@@ -2,8 +2,6 @@
 
 {
   home.file.".config/niri/config.kdl".text = ''
-    // Niri configuration managed by Nix
-    
     input {
       keyboard {
         xkb {
@@ -44,7 +42,8 @@
       NIXOS_OZONE_WL "1"
     }
     
-    spawn-at-startup "caelestia-shell"
+    spawn-at-startup "dms" "run"
+    // spawn-at-startup "caelestia-shell"
     spawn-at-startup "dunst"
     spawn-at-startup "blueman-applet"
     spawn-at-startup "xwayland-satellite"
@@ -168,6 +167,16 @@
       Mod+Print { screenshot; }
       Ctrl+Print { screenshot-screen; }
       Alt+Print { screenshot-window; }
+
+      Mod+Space hotkey-overlay-title="Toggle Application Launcher" { spawn "dms" "ipc" "spotlight" "toggle"; }
+      Mod+N hotkey-overlay-title="Toggle Notification Centre" { spawn "dms" "ipc" "notifications" "toggle"; }
+      Mod+P hotkey-overlay-title="Toggle Notepad" { spawn "dms" "ipc" "notepad" "toggle"; }
+      Mod+X hotkey-overlay-title="Toggle Power Menu" { spawn "dms" "ipc" "powermenu" "toggle"; }
+      Mod+Alt+Comma hotkey-overlay-title="Toggle DMS Settings" { spawn "dms" "ipc" "settings" "toggle"; }
+      Mod+Alt+V hotkey-overlay-title="Toggle Clipboard Manager" { spawn "dms" "ipc" "clipboard" "toggle"; }
+      Mod+Alt+M hotkey-overlay-title="Toggle Process List" { spawn "dms" "ipc" "processlist" "toggle"; }
+      Mod+Ctrl+Alt+L hotkey-overlay-title="Lock the Screen: DMS" { spawn "dms" "ipc" "lock" "lock"; }
+      Mod+Alt+N allow-when-locked=true hotkey-overlay-title="Toggle Night Mode" { spawn "dms" "ipc" "night" "toggle"; }
 
       Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
       Mod+Shift+E { quit; }

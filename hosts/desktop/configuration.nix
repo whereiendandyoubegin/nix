@@ -8,7 +8,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # Boot configuration
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -19,7 +18,6 @@
     # extraModulePackages = [ config.boot.kernelPackages.virtualbox ];
   };
 
-  # Network configuration
   networking = {
     hostName = "dan-nix";
     networkmanager.enable = true;
@@ -28,14 +26,12 @@
     firewall.allowedTCPPorts = [ 6443 6780 ];
   };
 
-  # User configuration
   users.users.dan = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "docker" "libvirtd" "vboxusers" "pipewire" "librepods" ];
     shell = pkgs.nushell;
   };
 
-  # Locale and timezone
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
   i18n.extraLocaleSettings = {
@@ -59,7 +55,6 @@
 
   services.printing.enable = true;
 
-  # System packages
   environment.systemPackages = with pkgs; [
     wget curl git vim firefox
     networkmanager-openvpn
@@ -69,7 +64,6 @@
     xdg-desktop-portal-gtk
   ];
 
-  # Enable ZSH
   programs.zsh.enable = true;
 
   system.stateVersion = "24.05";

@@ -122,7 +122,6 @@ let
     };
   };
 
-  # Native Helix language config, rendered to languages.toml.
   helixLanguages = {
     language-server = {
       rust-analyzer.config = {
@@ -175,8 +174,6 @@ let
           documentation.enable = true;
           show = {
             enumVariants = 20;
-            # NOTE: upstream key is structFields; kept as-is to preserve the
-            # previous behaviour.
             tructFields = 20;
             traitAssocItems = 20;
           };

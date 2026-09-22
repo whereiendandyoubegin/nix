@@ -1,24 +1,18 @@
-# Default meson build dir
 /build
-# Meson creates this file too
 src/.wraplock
-# Python bytecode (clang-tidy runner scripts)
 __pycache__/
 
 /outputs
 
 *~
 
-# GNU Global
 GPATH
 GRTAGS
 GSYMS
 GTAGS
 
-# ccls
 /.ccls-cache
 
-# auto-generated compilation database
 compile_commands.json
 *.compile_commands.json
 
@@ -27,20 +21,16 @@ secrets/
 result
 result-*
 
-# IDE
 .vscode/
 .idea/
 .helix/
 
 .pre-commit-config.yaml
 
-# clangd and possibly more
 .cache/
 
-# Mac OS
 .DS_Store
 
 flake-regressions
 
-# direnv
 .direnv/

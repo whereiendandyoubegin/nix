@@ -17,6 +17,11 @@
 
     caelestia.url = "github:caelestia-dots/shell";
 
+    dank-material-shell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     yazelix = {
       url = "github:luccahuguet/yazelix/edge";
       inputs.nixpkgs.follows = "nixpkgs";

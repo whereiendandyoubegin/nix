@@ -9,6 +9,8 @@
     ../shared/yazelix.nix
     ./niri.nix
     ./dunst.nix
+    inputs.dank-material-shell.homeModules.dank-material-shell
+    ./dms.nix
   ];
 
   home.stateVersion = "24.11";

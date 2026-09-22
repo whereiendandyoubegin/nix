@@ -4,7 +4,6 @@
 	        enable = true;
 
 	        extraPackages = with pkgs; [
-	          # Language servers
 	          python3Packages.python-lsp-server
 	          typescript-language-server
 	          gopls
@@ -84,7 +83,6 @@
 	        };
 
 	        languages = {
-	          # Language server definitions
 	          language-server.clangd = {
 	            command = "clangd";
 	            args = ["--background-index" "--clang-tidy"];
@@ -118,7 +116,6 @@
 	            args = ["--stdio"];
 	          };
 
-	          # Language configurations with proper scopes
 	          language = [
 	            {
 	              name = "c";

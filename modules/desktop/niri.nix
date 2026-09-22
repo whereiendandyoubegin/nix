@@ -21,6 +21,10 @@
   
   security.polkit.enable = true;
   services.dbus.enable = true;
+
+  services.power-profiles-daemon.enable = true;
+  services.accounts-daemon.enable = true;
+  services.geoclue2.enable = true;
   
   environment.sessionVariables = {
     XDG_CURRENT_DESKTOP = "niri";
