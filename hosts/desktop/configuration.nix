@@ -11,7 +11,7 @@
   boot = {
     loader = {
       systemd-boot.enable = true;
-      systemd-boot.configurationLimit = 15;
+      systemd-boot.configurationLimit = 1;
       efi.canTouchEfiVariables = true;
     };
     blacklistedKernelModules = [ "kvm" "kvm_amd" ];

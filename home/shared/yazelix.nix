@@ -233,7 +233,6 @@ in
         welcome.enabled = true;
         welcome.style = "random";
         sidebar.command = "yzx-yazi";
-        terminal.transparency = "high";
       };
 
       helix = {

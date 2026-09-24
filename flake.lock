@@ -222,7 +222,7 @@
         "type": "github"
       }
     },
-    "dms-theme-registry": {
+    "dms-registry": {
       "flake": false,
       "locked": {
         "lastModified": 1790257166,
@@ -915,7 +915,7 @@
         "caelestia": "caelestia",
         "chaotic": "chaotic",
         "dank-material-shell": "dank-material-shell",
-        "dms-theme-registry": "dms-theme-registry",
+        "dms-registry": "dms-registry",
         "fenix": "fenix",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_3",
