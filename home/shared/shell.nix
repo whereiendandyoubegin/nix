@@ -78,6 +78,18 @@ in
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";
+    matchBlocks = {
+      # Forgejo: forgejo.thesta.rs resolves to pve01 on the LAN only
+      "forgejo.thesta.rs" = {
+        port = 2222;
+        user = "git";
+      };
+      # Off the LAN it doesn't resolve there, so go through the Cloudflare tunnel
+      "forgejo-off-lan" = {
+        match = ''host forgejo.thesta.rs exec "! getent hosts forgejo.thesta.rs | grep -q '^192\.168\.'"'';
+        proxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname ssh.thesta.rs";
+      };
+    };
   };
   programs.keychain = {
     enable = true;

@@ -47,6 +47,8 @@ with pkgs; [
   
   firewalld nix-index pavucontrol ffmpeg
   lm_sensors parted file btop iotop
+  libnotify libinput inotify-tools
+  yt-dlp songrec easyeffects
   
   gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good
   gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly

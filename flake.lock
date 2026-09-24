@@ -193,11 +193,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790115072,
-        "narHash": "sha256-D8zpUSWQCjuEiJq1mvbCorSl29EXKqWN4FAPwgOzBeo=",
+        "lastModified": 1790130285,
+        "narHash": "sha256-dqHaTa0LbZkxzyW3SFArmWz7YRPzqhWqRCZGvYFoA1Y=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "860542314e96835f02c0807e541ecc56bc4dcc4b",
+        "rev": "c66ca000629902c37e3fddfd3da73bc5225c0fdb",
         "type": "github"
       },
       "original": {
@@ -222,14 +222,14 @@
         "type": "github"
       }
     },
-    "dms-theme-registry": {
+    "dms-registry": {
       "flake": false,
       "locked": {
-        "lastModified": 1790074979,
-        "narHash": "sha256-nCywPts6lLQ4mmHZ2wuuDyQk1uur9prcHnsvu0109lM=",
+        "lastModified": 1790130634,
+        "narHash": "sha256-5iAA4evd1TF7Dm5LRf0Ob3blqPnsUdzRU9sqfjeZ17c=",
         "owner": "AvengeMedia",
         "repo": "dms-plugin-registry",
-        "rev": "6c99e2f41f842876a3e4f03c4de3aa2234b9f2b7",
+        "rev": "c5c954d01125019fcbf43f5c5056bfc955405787",
         "type": "github"
       },
       "original": {
@@ -495,11 +495,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790110821,
-        "narHash": "sha256-4vgPxAtYGryB/9SZVFMrcRKmNcOqcN3+MwRJPTVpb1o=",
+        "lastModified": 1790128814,
+        "narHash": "sha256-6Gm9q+wW3E4Ey4F6wEbJAwaMsEK6hvCYfTW7yY64ZfA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a5768f1a46942657352e58037b7891bdcbc0741f",
+        "rev": "0b2f1129177f70c5f0f5d88bb53c49ca47d0bfc0",
         "type": "github"
       },
       "original": {
@@ -892,7 +892,7 @@
         "caelestia": "caelestia",
         "chaotic": "chaotic",
         "dank-material-shell": "dank-material-shell",
-        "dms-theme-registry": "dms-theme-registry",
+        "dms-registry": "dms-registry",
         "fenix": "fenix",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_3",
@@ -1194,11 +1194,11 @@
         "zjstatus": "zjstatus"
       },
       "locked": {
-        "lastModified": 1790117599,
-        "narHash": "sha256-jMGnKX91C2ovnjib6DkQk3hRNzt0QT4qq38vE3fU9Og=",
+        "lastModified": 1790123701,
+        "narHash": "sha256-eJIlLonqqxruPSrRK3sznBI7EPnudBY+9sOIlVU83F0=",
         "owner": "luccahuguet",
         "repo": "yazelix",
-        "rev": "552ddaca85f1be22040bc3c1ed2e133f8a4f89e9",
+        "rev": "2b7d4a16f90802b00a39b4b8c58f906872bb49a1",
         "type": "github"
       },
       "original": {

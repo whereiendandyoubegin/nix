@@ -22,7 +22,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dms-theme-registry = {
+    dms-registry = {
       url = "github:AvengeMedia/dms-plugin-registry";
       flake = false;
     };
