@@ -39,8 +39,6 @@ let
   initScm = lib.concatMapStringsSep "\n" (cmd: "(${cmd})") allStartup;
 
   helixSettings = {
-    theme = "spacemacs";
-
     editor = {
       auto-format = true;
       bufferline = "always";
@@ -122,17 +120,28 @@ let
     };
   };
 
+  rustNativeEnv = {
+    PKG_CONFIG_PATH = lib.makeSearchPathOutput "dev" "lib/pkgconfig" (with pkgs; [
+      openssl
+      libgit2
+      libssh2
+      zlib
+    ]);
+  };
+
   helixLanguages = {
     language-server = {
       rust-analyzer.config = {
         check = {
           command = "clippy";
           workspace = true;
+          extraEnv = rustNativeEnv;
         };
 
         cargo = {
           features = "all";
           buildScripts.enable = true;
+          extraEnv = rustNativeEnv;
         };
 
         procMacro.enable = true;
@@ -264,9 +273,11 @@ in
 
           use ${starshipNuInit}
 
-          let keychain_shell_command = (SHELL=bash ${keychainBin} --eval --quiet id_ed25519| parse -r '(\w+)="?(.*?)"?; export \1' | transpose -ird)
-          if not ($keychain_shell_command|is-empty) {
-            $keychain_shell_command | load-env
+          if $nu.is-interactive {
+            let keychain_shell_command = (SHELL=bash ${keychainBin} --eval --quiet id_ed25519| parse -r '(\w+)="?(.*?)"?; export \1' | transpose -ird)
+            if not ($keychain_shell_command|is-empty) {
+              $keychain_shell_command | load-env
+            }
           }
 
           alias "ns" = sudo nixos-rebuild switch --flake ~/cloned/nixpublic --fast

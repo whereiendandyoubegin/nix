@@ -65,6 +65,10 @@ let
       "wienerLinien"
     ];
 
+    brokenUpstream = [
+      "dankAIUsage"
+    ];
+
     unwanted = [
       "spotifyMatugen"
       "wallpaperByWorkspace"

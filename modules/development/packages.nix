@@ -69,7 +69,6 @@ with pkgs; [
   ghostty screen
   
   bc starship zenity
-  claude-code
   nix-fast-build
   fastfetch
   codex
@@ -84,4 +83,5 @@ with pkgs; [
     "rust-src"
   ])
   inputs.fenix.packages.${system}.stable.rust-analyzer
+  inputs.claude-code-nix.packages.${system}.default
 ]

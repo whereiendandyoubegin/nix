@@ -26,7 +26,7 @@
       accept-flake-config = true;
       
       substituters = [
-        "http://nix-cache.thesta.rs"
+        "http://hydra.thesta.rs"
         "https://cache.nixos.org/"
         "https://nyx-cache.chaotic.cx/"
         "https://nix-community.cachix.org"

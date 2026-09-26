@@ -46,6 +46,11 @@
       url = "github:whereiendandyoubegin/nu_plugin_typetree";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, caelestia, fenix, ... }@inputs:
@@ -96,6 +101,11 @@
             home.homeDirectory = "/home/dan";
           }
         ];
+      };
+
+      hydraJobs = {
+        dan-nix = self.nixosConfigurations.dan-nix.config.system.build.toplevel;
+        devShell = self.devShells.${system}.default.inputDerivation;
       };
 
       devShells.${system}.default = pkgs.mkShell {
