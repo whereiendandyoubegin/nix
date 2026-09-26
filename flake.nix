@@ -33,7 +33,7 @@
     };
 
     steel-plugin-nix = {
-      url = "git+https://git.dan-gilmour.com/dan/steel-plugin-nix.git";
+      url = "git+https://git.thesta.rs/dan/steel-plugin-nix.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
