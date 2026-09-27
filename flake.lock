@@ -125,11 +125,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1790421597,
-        "narHash": "sha256-D0xy1Tmc0/cOIUZr7Rn4Iw2gN23QG3yqaxc7puN3t7c=",
+        "lastModified": 1790507313,
+        "narHash": "sha256-KNfYoS4N3LeQ+8zSBn/QuiR7nfsVqd8fqJL30shP9pI=",
         "owner": "chaotic-cx",
         "repo": "nyx",
-        "rev": "9ef94eb5bba8e1aed415a809f0f6e716e4595467",
+        "rev": "a6a3dcf6a7b1d3cc454f919ed75d60d21179e67e",
         "type": "github"
       },
       "original": {
@@ -214,11 +214,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790488950,
-        "narHash": "sha256-ZzVgXuEaNG/gFbVum2RCB/Wvl2n8LhL5Nxh4NE1D8Po=",
+        "lastModified": 1790540346,
+        "narHash": "sha256-qx9RLxrprd1Oe2PWW4tz5goi4A6SFgr72DFc4j5QTHc=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "56234761261d90cb431cc5348fe9f81efb68b633",
+        "rev": "d5c96a1756f829baf0794dc5a43636bf0dd6d273",
         "type": "github"
       },
       "original": {
@@ -725,11 +725,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1790323409,
-        "narHash": "sha256-m4DGo58Fza5ImOegtWOeE18nhpSO1IGzsVA6Lpsb4zw=",
-        "rev": "e94cb152ed51bd6e24eb4a41f1460252beb52cd2",
+        "lastModified": 1790463110,
+        "narHash": "sha256-VZHcT2wKLkApBCACQ2SH4P1jVZUbbOA7jWAGi1MIViw=",
+        "rev": "e158d9ed9b51c98974c5e66e1ba1c9e0255fecaa",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1079315.e94cb152ed51/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1080189.e158d9ed9b51/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
@@ -1170,11 +1170,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783091668,
-        "narHash": "sha256-rloMCDMm6nOIdmravaS/jiO+RDCJDerzQfmiXMTIYIA=",
+        "lastModified": 1790526097,
+        "narHash": "sha256-H6yh3HGd6Y/LMVndgjBLESLsT8m+c3M/JUE50jAYqFg=",
         "ref": "refs/heads/main",
-        "rev": "1c50ab03a50408d94a1abd6b9c477672344a89b0",
-        "revCount": 7,
+        "rev": "bae505bdb861eb2e98b7dbc3e8aa2e3b321a4e1e",
+        "revCount": 9,
         "type": "git",
         "url": "https://git.thesta.rs/dan/steel-plugin-nix.git"
       },
