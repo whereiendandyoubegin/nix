@@ -10,7 +10,7 @@ with pkgs; [
   nil niri playerctl ninja 
   
   zsh bash-completion tmux htop glances tree ncdu
-  jq yq ripgrep fd fzf bat less nano
+  jq yq ripgrep ast-grep fd fzf bat less nano
   wget curl nmap arp-scan bind.dnsutils whois rsync pv
   inxi plocate nushell nushellPlugins.query zoxide
   

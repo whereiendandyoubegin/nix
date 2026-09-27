@@ -828,23 +828,6 @@
         "type": "github"
       }
     },
-    "novaHelixFileWatcher": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790465371,
-        "narHash": "sha256-5LSiLVyG6yGeMFjif9U5ScppZ5lER+Q6v4h34x6STyQ=",
-        "owner": "Yazelix",
-        "repo": "nova-helix-file-watcher",
-        "rev": "ffe02646ec291f869025d55cb9f01ee9bd061f94",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Yazelix",
-        "repo": "nova-helix-file-watcher",
-        "rev": "ffe02646ec291f869025d55cb9f01ee9bd061f94",
-        "type": "github"
-      }
-    },
     "nu_plugin_typetree": {
       "inputs": {
         "nixpkgs": [
@@ -1275,7 +1258,6 @@
         ],
         "notifyHx": "notifyHx",
         "novaBar": "novaBar",
-        "novaHelixFileWatcher": "novaHelixFileWatcher",
         "rio": "rio",
         "starshipYazi": "starshipYazi",
         "yazelixForest": "yazelixForest",
