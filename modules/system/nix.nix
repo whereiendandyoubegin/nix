@@ -61,6 +61,16 @@
         speedFactor = 1;
         supportedFeatures = [ "big-parallel" "benchmark" ];
       }
+      {
+        hostName = "hydra";
+        sshUser = "dan";
+        sshKey = "/home/dan/.ssh/id_ed25519_nixology";
+        system = "x86_64-linux";
+        protocol = "ssh-ng";
+        maxJobs = 4;
+        speedFactor = 2;
+        supportedFeatures = [ "big-parallel" "benchmark" ];
+      }
     ];
     distributedBuilds = true;
 
@@ -71,11 +81,20 @@
     };
   };
 
-  programs.ssh.knownHosts."flake-updater".publicKey =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMJ1tdDkbHls2a7An/DojGIwiaov/mfdzN/cKI0GpZW";
+  # Homelab containers keep fixed host keys (nixology host-keys.json), so these
+  # survive blue/green redeploys.
+  programs.ssh.knownHosts = builtins.mapAttrs (_: publicKey: { inherit publicKey; }) {
+    flake-updater = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBMJ1tdDkbHls2a7An/DojGIwiaov/mfdzN/cKI0GpZW";
+    hydra = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkDIuNKBoSQZoQv9Z1X2WDsrmXpBovhb2uLxcWpNB2S";
+    cloudflared = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILycFW17KIXjkp6tIR5FcKD++/NPPwZ1tvGZgvrEFMmO";
+    forgejo = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWn5uKp40Aq07qy1DLTbXbWRnYNi3Q8nwKlSytBSo2M";
+    monitoring = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINFng+rELa1IYVRRVi5iNzXdfwZsRlgRnm5YfCjieLnL";
+    postgres = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFu79Vqg+BFGLLZrw7oUFcu24gkfZYMtsWzUfp9jk6S+";
+    test-container = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8f3haCbDkY1TTJyzXNGR+oz71U745XHI0UGTP/XCO1";
+  };
 
   programs.ssh.extraConfig = ''
-    Host flake-updater
+    Host flake-updater hydra
       User dan
       IdentityFile /home/dan/.ssh/id_ed25519_nixology
   '';

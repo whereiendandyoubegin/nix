@@ -242,6 +242,8 @@ in
         welcome.enabled = true;
         welcome.style = "random";
         sidebar.command = "yzx-yazi";
+        forest.enabled = false;
+        helix.file_watcher = true;
       };
 
       helix = {

@@ -54,33 +54,16 @@ in
 
   compiled = [
     {
-      owner = "whereiendandyoubegin";
+      owner = "thomasschafer";
       repo = "scooter.hx";
-      rev = "76bf578b59821934c2f0df872cd7a866a30c0aeb";
-      hash = "sha256-17L7g4EMLfc1Y693kM6xOpUrjnbLyDkj+lPHsakk+KY=";
-      id = "scooter";
+      rev = "2d4c9244fd184c16fc1e351f5c5bebc2519aeac8";
+      hash = "sha256-YZakZAUHDAk48GCdgUbIM7c2u42nWll1V9ug5WanBD0=";
+      id = "scooter.hx";
       source = "scooter.scm";
       support_files = [
         "ui/window.scm"
-        "ui/fields.scm"
-        "ui/drawing.scm"
-        "ui/styles.scm"
-        "ui/utils.scm"
       ];
       public_commands = [ "scooter" "scooter-new" ];
-    }
-    {
-      owner = "mattwparas";
-      repo = "helix-file-watcher";
-      rev = "8cd0726da47be4a1011c3246ff308c1dfefda9d1";
-      hash = "sha256-auqS4wcJGCUJXzRVj4neQLJnqErvty3+3shfq5DU/pg=";
-      id = "helix-file-watcher";
-      source = "file-watcher.scm";
-      support_files = [ "helix-file-watcher.scm" ];
-      public_commands = [ "spawn-watcher" ];
-      outputHashes = {
-        "steel-core-0.8.2" = "sha256-qPDz0ax290E7UEFTDfrmLmsn1r9dIuOxMiRmNrDkfZo=";
-      };
     }
     {
       owner = "Ciflire";

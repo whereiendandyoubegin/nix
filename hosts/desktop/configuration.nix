@@ -65,6 +65,7 @@
   ];
 
   programs.zsh.enable = true;
+  programs.kdeconnect.enable = true;
 
   system.stateVersion = "24.05";
 }
