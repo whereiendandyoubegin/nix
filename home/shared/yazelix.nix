@@ -16,9 +16,52 @@ let
 
   helixConfigSrc = pkgs.fetchFromGitHub helixConfigRepo;
 
+  fromSteelBumped =
+    spec:
+    let
+      src = pkgs.fetchFromGitHub { inherit (spec) owner repo rev hash; };
+      cargoToml = builtins.fromTOML (builtins.readFile "${src}/Cargo.toml");
+      libName = (cargoToml.lib or { }).name or (lib.replaceStrings [ "-" ] [ "_" ] cargoToml.package.name);
+      dylibName = "lib${libName}${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}";
+      drv = pkgs.rustPlatform.buildRustPackage {
+        pname = cargoToml.package.name;
+        version = spec.rev;
+        inherit src;
+        doCheck = false;
+        cargoLock.lockFile = spec.lockFile;
+        postPatch = ''
+          substituteInPlace Cargo.toml \
+            --replace-fail 'version = "${spec.steelCore.from}"' 'version = "${spec.steelCore.to}"'
+          cp ${spec.lockFile} Cargo.lock
+        '';
+        installPhase = ''
+          runHook preInstall
+          install -D "$(find target -name ${dylibName} -not -path '*/deps/*' | head -1)" $out/lib/${dylibName}
+          ${lib.concatMapStringsSep "\n" (f: "install -D ${f} $out/share/steel/cogs/${spec.id}/${f}") (
+            [ spec.source ] ++ spec.support_files
+          )}
+          runHook postInstall
+        '';
+      };
+    in
+    spn.mkCompiledSteelPlugin (
+      builtins.removeAttrs spec [
+        "owner"
+        "repo"
+        "rev"
+        "hash"
+        "steelCore"
+        "lockFile"
+      ]
+      // {
+        inherit drv dylibName;
+      }
+    );
+
   plugins = spn.collect (
     map spn.fromGitHub pluginSpecs.interpreted
     ++ map spn.fromCompiledGitHub pluginSpecs.compiled
+    ++ map fromSteelBumped pluginSpecs.steelBumped
   );
 
   requireLine = m: ''(require "steel_plugins/${m.source}")'';
@@ -226,7 +269,9 @@ in
     inputs.yazelix.homeManagerModules.default
   ];
 
-  home.file = plugins.homeFiles // plugins.nativeFiles // {
+  home.file = plugins.homeFiles // lib.mapAttrs' (
+    name: value: lib.nameValuePair ".local/share/steel/native/${baseNameOf name}" value
+  ) plugins.nativeFiles // {
     ".config/yazelix/helix/cogs/themes/spacemacs.scm".source =
       "${helixConfigSrc}/cogs/themes/spacemacs.scm";
   };
@@ -243,7 +288,6 @@ in
         welcome.style = "random";
         sidebar.command = "yzx-yazi";
         forest.enabled = false;
-        helix.file_watcher = true;
       };
 
       helix = {
