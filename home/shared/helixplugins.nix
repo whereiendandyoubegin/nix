@@ -65,6 +65,9 @@ in
       ];
       public_commands = [ "scooter" "scooter-new" ];
     }
+  ];
+
+  steelBumped = [
     {
       owner = "Ciflire";
       repo = "presence.hx";
@@ -75,6 +78,8 @@ in
       support_files = [ "helix-discord-rpc.scm" ];
       public_commands = [ "discord-rpc-connect" ];
       startup_commands = [ "discord-rpc-connect" ];
+      steelCore = { from = "0.7.0"; to = "0.8.3"; };
+      lockFile = ./steel/presence-hx.Cargo.lock;
     }
   ];
 }
