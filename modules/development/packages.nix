@@ -18,7 +18,7 @@ with pkgs; [
   wireguard-tools awscli2 qemu_kvm virt-manager
   openssh sshpass nfs-utils k9s
   
-  firefox discord element-desktop 
+  firefox discord discordo element-desktop 
   vlc obs-studio qbittorrent
   keepassxc meld brave calibre appflowy
   nyxt spotify-player spotatui

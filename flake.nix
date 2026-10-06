@@ -29,7 +29,7 @@
 
     yazelix = {
       url = "github:luccahuguet/yazelix/edge";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     steel-plugin-nix = {
@@ -43,7 +43,7 @@
     };
 
     nu_plugin_typetree = {
-      url = "github:whereiendandyoubegin/nu_plugin_typetree";
+      url = "github:whereiendandyoubegin/nu_plugin_typetree/d07c6a507c0cb4ad0ce8c03855b9a8737eccdc45";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
