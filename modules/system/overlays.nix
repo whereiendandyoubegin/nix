@@ -1,10 +1,10 @@
-{ ... }:
+{ pkgs, nyxt-src, ... }:
 {
   nixpkgs.overlays = [
     (final: prev: {
-      spotify-player = prev.spotify-player.overrideAttrs (old: {
-        cargoBuildFeatures = [ "pulseaudio-backend" ];
-        buildInputs = (old.buildInputs or []) ++ [ prev.pulseaudio ];
+      nyxt = prev.nyxt.overrideAttrs (oldAttrs: {
+        version = "unstable-${builtins.substring 0 7 nyxt-src.rev}";
+        makeFlags = (oldAttrs.makeFlags or []) ++ [ "NYXT_SUBMODULES=false" ];
       });
     })
   ];

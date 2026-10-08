@@ -51,9 +51,14 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nyxt-src = {
+      url = "github:atlas-engineer/nyxt";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, caelestia, fenix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, caelestia, fenix, nyxt-src, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -64,7 +69,7 @@
       nixosConfigurations = {
         dan-nix = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs fenix; };
+          specialArgs = { inherit inputs fenix nyxt-src; };
           modules = [
             ./modules/system/overlays.nix
             ./hosts/desktop/configuration.nix

@@ -882,6 +882,22 @@
         "type": "github"
       }
     },
+    "nyxt-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772116504,
+        "narHash": "sha256-+KZciXv2lIhwEru45GW5XXOAfdoTqk6GTFzDV0kbdJQ=",
+        "owner": "atlas-engineer",
+        "repo": "nyxt",
+        "rev": "aeb6c72cf1ef4216d4bd6437b4e21ceac18b17e7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atlas-engineer",
+        "repo": "nyxt",
+        "type": "github"
+      }
+    },
     "quickshell": {
       "inputs": {
         "nixpkgs": [
@@ -976,6 +992,7 @@
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_3",
         "nu_plugin_typetree": "nu_plugin_typetree",
+        "nyxt-src": "nyxt-src",
         "steel-plugin-nix": "steel-plugin-nix",
         "yazelix": "yazelix",
         "zaphkiel": "zaphkiel"
