@@ -7,6 +7,7 @@
     ../shared/git.nix
     ../shared/terminal.nix
     ../shared/yazelix.nix
+    ../shared/browser.nix
     ./niri.nix
     ./dunst.nix
     inputs.dank-material-shell.homeModules.dank-material-shell

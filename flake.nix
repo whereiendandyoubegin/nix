@@ -56,6 +56,11 @@
       url = "github:atlas-engineer/nyxt";
       flake = false;
     };
+
+    nyxt-config = {
+      url = "git+https://codeberg.org/kabouik/nyxt-config";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, caelestia, fenix, nyxt-src, ... }@inputs:

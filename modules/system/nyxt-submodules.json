@@ -1,0 +1,547 @@
+[
+  {
+    "path": "_build/Acclimation",
+    "rev": "4d51150902568fcd59335f4cc4cfa022df6116a5",
+    "url": "https://github.com/robert-strandh/Acclimation"
+  },
+  {
+    "path": "_build/Clump",
+    "rev": "1ea4dbac1cb86713acff9ae58727dd187d21048a",
+    "url": "https://github.com/robert-strandh/Clump"
+  },
+  {
+    "path": "_build/LASS",
+    "rev": "a7a4452f6a670b8fb01a73d3007030d16bd1ec2c",
+    "url": "https://github.com/Shinmera/LASS"
+  },
+  {
+    "path": "_build/alexandria",
+    "rev": "49e82add16cb9f1ffa72c77cd687271247181ff3",
+    "url": "https://gitlab.common-lisp.net/alexandria/alexandria.git"
+  },
+  {
+    "path": "_build/anaphora",
+    "rev": "bcf0f7485eec39415be1b2ec6ca31cf04a8ab5c5",
+    "url": "https://github.com/tokenrove/anaphora"
+  },
+  {
+    "path": "_build/array-utils",
+    "rev": "873888d82f88389b6cc102fe0a4d105b2d40171d",
+    "url": "https://github.com/Shinmera/array-utils"
+  },
+  {
+    "path": "_build/babel",
+    "rev": "627d6a60d0ffc82a3687b39ba8a99128031504d9",
+    "url": "https://github.com/cl-babel/babel"
+  },
+  {
+    "path": "_build/bordeaux-threads",
+    "rev": "076fe2380abbc59b06e495dc7a35aea8eb26ba3b",
+    "url": "https://github.com/sionescu/bordeaux-threads"
+  },
+  {
+    "path": "_build/calispel",
+    "rev": "e9f2f9c1af97f4d7bb4c8ac25fb2a8f3e8fada7a",
+    "url": "https://github.com/hawkir/calispel"
+  },
+  {
+    "path": "_build/cffi",
+    "rev": "33970351e71bb5f12ba56fc40270089e948ae112",
+    "url": "https://github.com/cffi/cffi"
+  },
+  {
+    "path": "_build/chipz",
+    "rev": "82a17d39c78d91f6ea63a03aca8f9aa6069a5e11",
+    "url": "https://github.com/sharplispers/chipz"
+  },
+  {
+    "path": "_build/chunga",
+    "rev": "16330852d01dfde4dd97dee7cd985a88ea571e7e",
+    "url": "https://github.com/edicl/chunga"
+  },
+  {
+    "path": "_build/cl-base64",
+    "rev": "577683b18fd880b82274d99fc96a18a710e3987a",
+    "url": "https://gitlab.common-lisp.net/nyxt/cl-base64.git"
+  },
+  {
+    "path": "_build/cl-cffi-gtk",
+    "rev": "1700fe672c65455c1fc33061ec92a3df84287ec7",
+    "url": "https://github.com/sharplispers/cl-cffi-gtk"
+  },
+  {
+    "path": "_build/cl-change-case",
+    "rev": "45c70b601125889689e0c1c37d7e727a3a0af022",
+    "url": "https://github.com/rudolfochrist/cl-change-case"
+  },
+  {
+    "path": "_build/cl-colors-ng",
+    "rev": "310e6495e2658d33a7500455fd461074748ef805",
+    "url": "https://codeberg.org/cage/cl-colors-ng.git"
+  },
+  {
+    "path": "_build/cl-containers",
+    "rev": "3d1df53c22403121bffb5d553cf7acb1503850e7",
+    "url": "https://github.com/gwkkwg/cl-containers"
+  },
+  {
+    "path": "_build/cl-cookie",
+    "rev": "cea55aed8b9ad25fafd13defbcb9fe8f41b29546",
+    "url": "https://github.com/fukamachi/cl-cookie"
+  },
+  {
+    "path": "_build/cl-custom-hash-table",
+    "rev": "f26983133940f5edf826ebbc8077acc04816ddfa",
+    "url": "https://github.com/metawilm/cl-custom-hash-table"
+  },
+  {
+    "path": "_build/cl-electron",
+    "rev": "f8703cb101e88800a86f5a9194d945d9810c1117",
+    "url": "https://github.com/atlas-engineer/cl-electron/"
+  },
+  {
+    "path": "_build/cl-enchant",
+    "rev": "e6687d252a8e2995789d5e84d49fa275401e29d2",
+    "url": "https://github.com/tlikonen/cl-enchant"
+  },
+  {
+    "path": "_build/cl-gobject-introspection",
+    "rev": "4908a84c16349929b309c50409815ff81fb9b3c4",
+    "url": "https://github.com/andy128k/cl-gobject-introspection"
+  },
+  {
+    "path": "_build/cl-gopher",
+    "rev": "0899e7fa2134206f9d9778c7d53c49b7a59ff070",
+    "url": "https://github.com/knusbaum/cl-gopher"
+  },
+  {
+    "path": "_build/cl-interpol",
+    "rev": "70a1137f41dd8889004dbab9536b1adeac2497aa",
+    "url": "https://github.com/edicl/cl-interpol"
+  },
+  {
+    "path": "_build/cl-jpl-util",
+    "rev": "0311ed374e19a49d43318064d729fe3abd9a3b62",
+    "url": "https://github.com/hawkir/cl-jpl-util"
+  },
+  {
+    "path": "_build/cl-json",
+    "rev": "994dd38c94344383f39f95d75987f6dc47a0cca1",
+    "url": "https://github.com/sharplispers/cl-json"
+  },
+  {
+    "path": "_build/cl-plus-ssl",
+    "rev": "17d5cdd65405f1d26e26f3e875e70027d0c8eedb",
+    "url": "https://github.com/cl-plus-ssl/cl-plus-ssl"
+  },
+  {
+    "path": "_build/cl-ppcre",
+    "rev": "1ca0cd9ca0d161acd49c463d6cb5fff897596e2f",
+    "url": "https://github.com/edicl/cl-ppcre"
+  },
+  {
+    "path": "_build/cl-prevalence",
+    "rev": "e6b27640ce89ae5f8af38beb740e319bb6cd2368",
+    "url": "https://github.com/40ants/cl-prevalence"
+  },
+  {
+    "path": "_build/cl-qrencode",
+    "rev": "0de2d8a3877b499a9a0bbb0a9e1247056ae4311e",
+    "url": "https://github.com/jnjcc/cl-qrencode"
+  },
+  {
+    "path": "_build/cl-sqlite",
+    "rev": "be2fcc193f98e3d5bdc85958a806d612cc48740c",
+    "url": "https://github.com/TeMPOraL/cl-sqlite"
+  },
+  {
+    "path": "_build/cl-str",
+    "rev": "f873716a991c270969c829ae911305f13c78311f",
+    "url": "https://github.com/vindarel/cl-str"
+  },
+  {
+    "path": "_build/cl-tld",
+    "rev": "f5014da8d831fa9481d4181d4450f10a52850c75",
+    "url": "https://github.com/lu4nx/cl-tld"
+  },
+  {
+    "path": "_build/cl-unicode",
+    "rev": "8073fc5634c9d4802888ac03abf11dfe383e16fa",
+    "url": "https://github.com/edicl/cl-unicode"
+  },
+  {
+    "path": "_build/cl-utilities",
+    "rev": "dce2d2f6387091ea90357a130fa6d13a6776884b",
+    "url": "https://gitlab.common-lisp.net/cl-utilities/cl-utilities"
+  },
+  {
+    "path": "_build/cl-webkit",
+    "rev": "66fd0700111586425c9942da1694b856fb15cf41",
+    "url": "https://github.com/joachifm/cl-webkit"
+  },
+  {
+    "path": "_build/clss",
+    "rev": "f62b849189c5d1be378f0bd3d403cda8d4fe310b",
+    "url": "https://github.com/Shinmera/clss"
+  },
+  {
+    "path": "_build/cluffer",
+    "rev": "4aad29c276a58a593064e79972ee4d77cae0af4a",
+    "url": "https://github.com/robert-strandh/cluffer"
+  },
+  {
+    "path": "_build/dexador",
+    "rev": "74a233edb0ebf2b8c696fb8db984ac568fbcc4e5",
+    "url": "https://github.com/fukamachi/dexador"
+  },
+  {
+    "path": "_build/documentation-utils",
+    "rev": "98630dd5f7e36ae057fa09da3523f42ccb5d1f55",
+    "url": "https://github.com/Shinmera/documentation-utils"
+  },
+  {
+    "path": "_build/drakma",
+    "rev": "d8963cbaf6926e38a50f36c7883e5a90403f782e",
+    "url": "https://github.com/edicl/drakma"
+  },
+  {
+    "path": "_build/fast-http",
+    "rev": "502a37715dcb8544cc8528b78143a942de662c5a",
+    "url": "https://github.com/fukamachi/fast-http"
+  },
+  {
+    "path": "_build/fast-io",
+    "rev": "a4c5ad600425842e8b6233b1fa22610ffcd874c3",
+    "url": "https://github.com/rpav/fast-io"
+  },
+  {
+    "path": "_build/flexi-streams",
+    "rev": "e0de6bb62cb780650e808fe4de62c4be786ec7aa",
+    "url": "https://github.com/edicl/flexi-streams"
+  },
+  {
+    "path": "_build/fset",
+    "rev": "d590b19b9777424f9f0d06196bf8e5c9e61ca2b4",
+    "url": "https://github.com/slburson/fset"
+  },
+  {
+    "path": "_build/global-vars",
+    "rev": "c749f32c9b606a1457daa47d59630708ac0c266e",
+    "url": "https://github.com/lmj/global-vars"
+  },
+  {
+    "path": "_build/idna",
+    "rev": "bf789e6029b695ecba635964deac38130f55c7b4",
+    "url": "https://github.com/antifuchs/idna"
+  },
+  {
+    "path": "_build/in-nomine",
+    "rev": "03524bab99309848d8a18de0673f055192058f0a",
+    "url": "https://github.com/phoe/in-nomine"
+  },
+  {
+    "path": "_build/introspect-environment",
+    "rev": "8fb20a1a33d29637a22943243d1482a20c32d6ae",
+    "url": "https://github.com/Bike/introspect-environment"
+  },
+  {
+    "path": "_build/iolib",
+    "rev": "010b7a6bdd2e918ebf2ec85edd3853179f01cb30",
+    "url": "https://github.com/sionescu/iolib"
+  },
+  {
+    "path": "_build/iterate",
+    "rev": "c24f6715bb3b962499bb4643636baaac2df4a957",
+    "url": "https://gitlab.common-lisp.net/iterate/iterate.git"
+  },
+  {
+    "path": "_build/jpl-queues",
+    "rev": "b774d24b3a2935b6e5ad17f83ff20ff359e2df81",
+    "url": "https://gitlab.common-lisp.net/nyxt/jpl-queues.git"
+  },
+  {
+    "path": "_build/lisp-namespace",
+    "rev": "699fccb6727027343bb5fca69162a3113996edfc",
+    "url": "https://github.com/guicho271828/lisp-namespace"
+  },
+  {
+    "path": "_build/lisp-unit2",
+    "rev": "b5aa17b298cf2f669f4c0262c471e1ee4ab4699a",
+    "url": "https://github.com/AccelerationNet/lisp-unit2"
+  },
+  {
+    "path": "_build/local-time",
+    "rev": "40169fe26d9639f3d9560ec0255789bf00b30036",
+    "url": "https://github.com/dlowe-net/local-time"
+  },
+  {
+    "path": "_build/log4cl",
+    "rev": "fe3da517147d023029782ced7cd989ba24f1e62d",
+    "url": "https://github.com/sharplispers/log4cl"
+  },
+  {
+    "path": "_build/lparallel",
+    "rev": "9c11f40018155a472c540b63684049acc9b36e15",
+    "url": "https://github.com/lmj/lparallel/"
+  },
+  {
+    "path": "_build/metatilities-base",
+    "rev": "6eaa9e3ff0939a93a92109dd0fcd218de85417d5",
+    "url": "https://github.com/gwkkwg/metatilities-base"
+  },
+  {
+    "path": "_build/misc-extensions",
+    "rev": "aef8a125fee27db18e6e8d1ef4526b68d592ee8d",
+    "url": "https://gitlab.common-lisp.net/misc-extensions/misc-extensions.git"
+  },
+  {
+    "path": "_build/moptilities",
+    "rev": "a436f16b357c96b82397ec018ea469574c10dd41",
+    "url": "https://github.com/gwkkwg/moptilities/"
+  },
+  {
+    "path": "_build/mt19937",
+    "rev": "831284f0c7fbda54ddfd135eee1e80afad7cc16e",
+    "url": "https://gitlab.common-lisp.net/nyxt/mt19937"
+  },
+  {
+    "path": "_build/named-readtables",
+    "rev": "d5ff162ce02035ec7de1acc9721385f325e928c0",
+    "url": "https://github.com/melisgl/named-readtables"
+  },
+  {
+    "path": "_build/nclasses",
+    "rev": "ad74d75c4eb0f0a626c618b0547709e6b04827ac",
+    "url": "https://github.com/atlas-engineer/nclasses/"
+  },
+  {
+    "path": "_build/nfiles",
+    "rev": "b44b06caf20cececeaee2153a747902c508a9c48",
+    "url": "https://github.com/atlas-engineer/nfiles"
+  },
+  {
+    "path": "_build/nhooks",
+    "rev": "3847bc749a6f6eb1103bc21f8ef3b4f6b301e822",
+    "url": "https://github.com/atlas-engineer/nhooks"
+  },
+  {
+    "path": "_build/njson",
+    "rev": "bbb9f7fe93fcb5ff95818a14d8e0eb1dbf768cea",
+    "url": "https://github.com/atlas-engineer/njson"
+  },
+  {
+    "path": "_build/nkeymaps",
+    "rev": "04b303c8b10650ab7dc5ac1d00796cb8cbe1087e",
+    "url": "https://github.com/atlas-engineer/nkeymaps"
+  },
+  {
+    "path": "_build/nsymbols",
+    "rev": "be07351bbdbf05b35303ea96bac2cb68fddcab7b",
+    "url": "https://github.com/atlas-engineer/nsymbols"
+  },
+  {
+    "path": "_build/optima",
+    "rev": "373b245b928c1a5cce91a6cb5bfe5dd77eb36195",
+    "url": "https://github.com/m2ym/optima"
+  },
+  {
+    "path": "_build/parenscript",
+    "rev": "7a1ac46353cecd144fc91915ba9f122aafcf4766",
+    "url": "https://gitlab.common-lisp.net/parenscript/parenscript"
+  },
+  {
+    "path": "_build/parse-declarations",
+    "rev": "549aebbfb9403a7fe948654126b9c814f443f4f2",
+    "url": "https://gitlab.common-lisp.net/parse-declarations/parse-declarations.git"
+  },
+  {
+    "path": "_build/parse-number",
+    "rev": "7707b224c4b941c2cbd28459113534242cee3a31",
+    "url": "https://github.com/sharplispers/parse-number/"
+  },
+  {
+    "path": "_build/phos",
+    "rev": "6620b82b091cdfed655e1093ef045dbe518d5474",
+    "url": "https://github.com/omar-polo/phos"
+  },
+  {
+    "path": "_build/plump",
+    "rev": "52826b69e0525e09a74d882db00837f064bb8691",
+    "url": "https://github.com/Shinmera/plump"
+  },
+  {
+    "path": "_build/proc-parse",
+    "rev": "ac3636834d561bdc2686c956dbd82494537285fd",
+    "url": "https://github.com/fukamachi/proc-parse"
+  },
+  {
+    "path": "_build/prompter",
+    "rev": "fb0302dd94c5be20674e07038419e27eac79f406",
+    "url": "https://github.com/atlas-engineer/prompter"
+  },
+  {
+    "path": "_build/puri",
+    "rev": "4bbab89d9ccbb26346899d1f496c97604fec567b",
+    "url": "https://gitlab.common-lisp.net/nyxt/puri.git"
+  },
+  {
+    "path": "_build/py-configparser",
+    "rev": "ea22fbde55cb91e2152fd1dcb28edc33423dbed6",
+    "url": "https://gitlab.common-lisp.net/nyxt/py-configparser"
+  },
+  {
+    "path": "_build/quri",
+    "rev": "45e0ff7f15a96ae9aef02b977375c6984d57a608",
+    "url": "https://github.com/fukamachi/quri"
+  },
+  {
+    "path": "_build/s-sysdeps",
+    "rev": "7f8de283b7fbd8b038fdf08493063a736db36ce7",
+    "url": "https://github.com/svenvc/s-sysdeps"
+  },
+  {
+    "path": "_build/s-xml",
+    "rev": "194cceaf90fb1a268d63f25f9b36e570af07cfb1",
+    "url": "https://gitlab.common-lisp.net/s-xml/s-xml"
+  },
+  {
+    "path": "_build/salza2",
+    "rev": "e91a42f1ee31b9a86948ba9f05fb4e965acfad68",
+    "url": "https://github.com/xach/salza2"
+  },
+  {
+    "path": "_build/serapeum",
+    "rev": "82a9b6e301d13665ee040fd7fde8e66e0a84bd58",
+    "url": "https://github.com/ruricolist/serapeum"
+  },
+  {
+    "path": "_build/smart-buffer",
+    "rev": "09b9a9a0b3abaa37abe9a730f5aac2643dca4e62",
+    "url": "https://github.com/fukamachi/smart-buffer"
+  },
+  {
+    "path": "_build/spinneret",
+    "rev": "a57b54a0b373490456b8edbe0e0795743c1bbc23",
+    "url": "https://github.com/ruricolist/spinneret/"
+  },
+  {
+    "path": "_build/split-sequence",
+    "rev": "e1b91281e13e7e1490fdcaf7e8aeda04759ec3b7",
+    "url": "https://github.com/sharplispers/split-sequence"
+  },
+  {
+    "path": "_build/static-vectors",
+    "rev": "89fa07afcc3c0fb53b66361c29f85220b10c0bca",
+    "url": "https://github.com/sionescu/static-vectors"
+  },
+  {
+    "path": "_build/string-case",
+    "rev": "718c761e33749e297cd2809c7ba3ade1985c49f7",
+    "url": "https://github.com/pkhuong/string-case"
+  },
+  {
+    "path": "_build/swap-bytes",
+    "rev": "4f1f90284a0d73e931aeca0f0ee1d7884572fd34",
+    "url": "https://github.com/sionescu/swap-bytes"
+  },
+  {
+    "path": "_build/symbol-munger",
+    "rev": "e96558e8315b8eef3822be713354787b2348b25e",
+    "url": "https://github.com/AccelerationNet/symbol-munger"
+  },
+  {
+    "path": "_build/trivia",
+    "rev": "8b406c3f83521d290e97bb787d3f6c1eb3b716af",
+    "url": "https://github.com/guicho271828/trivia"
+  },
+  {
+    "path": "_build/trivial-arguments",
+    "rev": "a0a33af4ad0a6e4cffd6217c3f21a2bfa7e97b2a",
+    "url": "https://github.com/Shinmera/trivial-arguments.git"
+  },
+  {
+    "path": "_build/trivial-clipboard",
+    "rev": "50b3d3a25717ac78fb1f0517635c3cb1c31c7667",
+    "url": "https://github.com/snmsts/trivial-clipboard"
+  },
+  {
+    "path": "_build/trivial-cltl2",
+    "rev": "8a3bda30dc25d2f65fcf514d0eb6e6db75252c61",
+    "url": "https://github.com/Zulu-Inuoe/trivial-cltl2"
+  },
+  {
+    "path": "_build/trivial-custom-debugger",
+    "rev": "a560594a673bbcd88136af82086107ee5ff9ca81",
+    "url": "https://github.com/phoe/trivial-custom-debugger"
+  },
+  {
+    "path": "_build/trivial-features",
+    "rev": "f6e8dd7268ae0137dbde4be469101a7f735f6416",
+    "url": "https://github.com/trivial-features/trivial-features"
+  },
+  {
+    "path": "_build/trivial-file-size",
+    "rev": "1c1d672a01a446ba0391dbb4ffc40be3b0476f23",
+    "url": "https://github.com/ruricolist/trivial-file-size"
+  },
+  {
+    "path": "_build/trivial-garbage",
+    "rev": "b1f757132a0f50aa844b99714b6bbaee974448f7",
+    "url": "https://github.com/trivial-garbage/trivial-garbage"
+  },
+  {
+    "path": "_build/trivial-gray-streams",
+    "rev": "2b3823edbc78a450db4891fd2b566ca0316a7876",
+    "url": "https://github.com/trivial-gray-streams/trivial-gray-streams"
+  },
+  {
+    "path": "_build/trivial-indent",
+    "rev": "f25275094b80df8aa158af46db980bbc3ce2f88b",
+    "url": "https://github.com/Shinmera/trivial-indent"
+  },
+  {
+    "path": "_build/trivial-macroexpand-all",
+    "rev": "933270ac7107477de1bc92c1fd641fe646a7a8a9",
+    "url": "https://github.com/cbaggers/trivial-macroexpand-all"
+  },
+  {
+    "path": "_build/trivial-mimes",
+    "rev": "a741fc2f567a4f86b853fd4677d75e62c03e51d9",
+    "url": "https://github.com/Shinmera/trivial-mimes"
+  },
+  {
+    "path": "_build/trivial-package-local-nicknames",
+    "rev": "16b7ad4c2b120f50da65154191f468ea5598460e",
+    "url": "https://github.com/phoe/trivial-package-local-nicknames"
+  },
+  {
+    "path": "_build/trivial-types",
+    "rev": "ee869f2b7504d8aa9a74403641a5b42b16f47d88",
+    "url": "https://github.com/m2ym/trivial-types"
+  },
+  {
+    "path": "_build/type-i",
+    "rev": "d34440ab4ebf5a46a58deccb35950b15670e3667",
+    "url": "https://github.com/guicho271828/type-i"
+  },
+  {
+    "path": "_build/unix-opts",
+    "rev": "2df8fa6da561d45568adc91304252d31acafee6c",
+    "url": "https://github.com/atlas-engineer/unix-opts"
+  },
+  {
+    "path": "_build/usocket",
+    "rev": "e843f021519ca55d883ac8d5b52df5a970d6ad18",
+    "url": "https://github.com/usocket/usocket/"
+  },
+  {
+    "path": "_build/xsubseq",
+    "rev": "5ce430b3da5cda3a73b9cf5cee4df2843034422b",
+    "url": "https://github.com/fukamachi/xsubseq"
+  },
+  {
+    "path": "_build/zpng",
+    "rev": "c808a48eb9ece6f04eb25a11a2eedb738fd4f0e2",
+    "url": "https://github.com/xach/zpng"
+  }
+]
