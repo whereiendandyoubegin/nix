@@ -27,6 +27,8 @@ in
           substituteInPlace nyxt.asd \
             --replace-fail '(:file "mode/user-script")' "" \
             --replace-fail ':components ((:file "renderer/gtk")' ':components ((:file "mode/user-script") (:file "renderer/gtk")'
+          substituteInPlace _build/cl-cffi-gtk/gtk/gtk.init.lisp \
+            --replace-fail '(%gtk-main))' '(sb-int:with-float-traps-masked (:divide-by-zero :invalid :overflow :inexact :underflow) (%gtk-main)))'
           substituteInPlace source/renderer/gtk.lisp \
             --replace-fail '(defmethod enable :after ((mode nyxt/mode/reduce-tracking:' '#+(or) (defmethod enable :after ((mode nyxt/mode/reduce-tracking:' \
             --replace-fail '(defmethod disable :after ((mode nyxt/mode/reduce-tracking:' '#+(or) (defmethod disable :after ((mode nyxt/mode/reduce-tracking:'
