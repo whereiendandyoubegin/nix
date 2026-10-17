@@ -76,9 +76,9 @@ in
         ((theme *spacemacs-dark*)
          (search-engines
           (cons (make-instance 'search-engine
-                               :name "Yandex"
+                               :name "Google"
                                :shortcut "y"
-                               :control-url "https://yandex.com/search/?text=~a")
+                               :control-url "https://google.com/search/?text=~a")
                 %slot-value%))))
 
       (define-configuration prompt-buffer
