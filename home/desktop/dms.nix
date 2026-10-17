@@ -72,6 +72,7 @@ let
     unwanted = [
       "spotifyMatugen"
       "wallpaperByWorkspace"
+      "takeABreak"
     ];
   };
 
@@ -107,9 +108,15 @@ in
     enable = true;
     systemd.enable = true;
 
-    package = (inputs.dank-material-shell.lib.mkDmsShell pkgs).override {
-      extraQtPackages = with pkgs.kdePackages; [ qt5compat qtwebsockets ];
-    };
+    package = (
+      (inputs.dank-material-shell.lib.mkDmsShell pkgs).override {
+        extraQtPackages = with pkgs.kdePackages; [ qt5compat qtwebsockets ];
+      }
+    ).overrideAttrs (old: {
+      preCheck = (old.preCheck or "") + ''
+        export TMPDIR="$(mktemp -d /tmp/dms-tests.XXXXXX)"
+      '';
+    });
 
     managePluginSettings = true;
 
