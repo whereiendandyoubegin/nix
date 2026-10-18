@@ -78,8 +78,40 @@ in
           (cons (make-instance 'search-engine
                                :name "Google"
                                :shortcut "y"
-                               :control-url "https://google.com/search/?text=~a")
+                               :control-url "https://www.google.com/search?q=~a")
                 %slot-value%))))
+
+      (defvar *js-allowed-domains*
+        '("google.com"))
+
+      (defun js-allowed-p (url)
+        (let ((host (quri:uri-host url)))
+          (and host
+               (some (lambda (domain)
+                       (or (string= host domain)
+                           (str:ends-with-p (str:concat "." domain) host)))
+                     *js-allowed-domains*))))
+
+      (define-configuration web-buffer
+        ((default-modes (pushnew 'nyxt/mode/no-script:no-script-mode %slot-value%))))
+
+      (defmethod nyxt:on-signal-load-started :after
+          ((mode nyxt/mode/no-script:no-script-mode) url)
+        (when (js-allowed-p url)
+          (setf (ffi-buffer-javascript-markup-enabled-p (buffer mode)) t)))
+
+      (defmethod ffi-buffer-copy :around ((buffer web-buffer) &optional (text nil text-provided-p))
+        (declare (ignore text))
+        (if text-provided-p
+            (call-next-method)
+            (let ((selection (ffi-buffer-evaluate-javascript
+                              buffer "window.getSelection().toString()")))
+              (if (uiop:emptyp selection)
+                  (echo "Nothing selected.")
+                  (progn
+                    (trivial-clipboard:text selection)
+                    (echo "Copied ~a characters." (length selection))))
+              selection)))
 
       (define-configuration prompt-buffer
         ((style (str:concat

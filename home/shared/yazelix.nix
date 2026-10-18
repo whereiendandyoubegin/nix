@@ -348,6 +348,11 @@ in
             }
           }
 
+          export def kill-process []: string -> nothing {
+            let pattern = $in
+            ps | where name =~ $pattern | each {|p| kill -s 9 $p.pid } | ignore
+          }
+
           def --env --wrapped __zoxide_z [...rest: string] {
             let path = match $rest {
               [] => {'~'},
