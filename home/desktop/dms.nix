@@ -73,6 +73,7 @@ let
       "spotifyMatugen"
       "wallpaperByWorkspace"
       "takeABreak"
+      "animationRotate"
     ];
   };
 

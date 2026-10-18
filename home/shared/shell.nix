@@ -77,8 +77,7 @@ in
   services.ssh-agent.enable = true;
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    matchBlocks = {
+       matchBlocks = {
       "forgejo.thesta.rs" = {
         port = 2222;
         user = "git";
