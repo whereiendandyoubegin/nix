@@ -1,22 +1,28 @@
 set nocompatible
+set number
+set hidden
+set scrolloff=5
+set ignorecase smartcase incsearch nohlsearch
+set backspace=indent,eol,start
+set autoindent expandtab shiftwidth=4 softtabstop=4 tabstop=4
+set splitright splitbelow
+set laststatus=2 showcmd ruler
+
+if 1
+
 filetype plugin indent on
 syntax on
 
 set encoding=utf-8
 set shell=sh
-set hidden
 set mouse=a
-set number
 set cursorline
-set scrolloff=5
-set splitright splitbelow
-set ignorecase smartcase incsearch nohlsearch
-set wrap linebreak breakindent showbreak=↪\
-set laststatus=2 showtabline=2 noshowmode showcmd
-set signcolumn=no
-set fillchars=vert:│,eob:\
-set backspace=indent,eol,start
-set autoindent expandtab shiftwidth=4 softtabstop=4 tabstop=4
+set wrap linebreak breakindent
+let &showbreak = "↪ "
+set showtabline=2 noshowmode
+set signcolumn=auto
+set fillchars=vert:│
+silent! let &fillchars = &fillchars . ",eob: "
 set noswapfile nobackup autoread
 set belloff=all
 set nofoldenable
@@ -27,14 +33,14 @@ set shortmess+=cI
 set wildmenu wildignorecase wildcharm=<C-z>
 silent! set wildoptions=pum,fuzzy
 silent! set wildmode=noselect:lastused,full
-set wildignore+=*/.git/*,*/node_modules/*,*/target/*
+set wildignore+=*/.git/*,*/node_modules/*,*/.terraform/*,*/__pycache__/*,*.pyc
 set completeopt=menuone,noinsert
 silent! set completeopt+=popup,fuzzy
 silent! set autocomplete
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --smart-case grepformat=%f:%l:%c:%m
 else
-  set grepprg=grep\ -rn
+  set grepprg=grep\ -rnI\ --exclude-dir=.git\ --exclude-dir=.terraform
 endif
 
 let &t_SI = "\e[6 q"
@@ -44,17 +50,15 @@ if &term =~# 'tmux\|screen'
   let &t_8f = "\e[38;2;%lu;%lu;%lum"
   let &t_8b = "\e[48;2;%lu;%lu;%lum"
 endif
+if &t_Co == 8 && $TERM =~# '^xterm\|^putty'
+  set t_Co=256
+endif
+if has('termguicolors') && $COLORTERM =~# 'truecolor\|24bit'
+  set termguicolors
+endif
 
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_winsize = -32
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_hide = 1
-
-if has('termguicolors') && ($COLORTERM =~# 'truecolor\|24bit' || !empty($TMUX) || $TERM =~# 'kitty\|ghostty\|wezterm\|alacritty\|foot\|direct')
-  set termguicolors
-endif
 
 function! s:Spacemacs() abort
   hi clear
@@ -83,6 +87,7 @@ function! s:Spacemacs() abort
   hi CursorLine   guibg=#3b314d gui=NONE ctermbg=237 cterm=NONE
   hi CursorLineNr guifg=#b2b2b2 guibg=#3b314d gui=bold ctermfg=249 ctermbg=237 cterm=bold
   hi LineNr       guifg=#44505c guibg=#292b2e ctermfg=239 ctermbg=235
+  hi SignColumn   guibg=#292b2e ctermbg=235
   hi Visual       guibg=#444155 ctermbg=238
   hi Search       guifg=NONE guibg=#444155 ctermfg=NONE ctermbg=238
   hi IncSearch    guifg=#292b2e guibg=#86dc2f gui=NONE ctermfg=235 ctermbg=112 cterm=NONE
@@ -110,46 +115,72 @@ function! s:Spacemacs() abort
   hi HxNor        guifg=#292b2e guibg=#4f97d7 gui=bold ctermfg=235 ctermbg=68 cterm=bold
   hi HxIns        guifg=#292b2e guibg=#67b11d gui=bold ctermfg=235 ctermbg=70 cterm=bold
   hi HxSel        guifg=#292b2e guibg=#bc6ec5 gui=bold ctermfg=235 ctermbg=170 cterm=bold
+  hi HxDiag       guifg=#e0211d guibg=#222226 gui=bold ctermfg=160 ctermbg=234 cterm=bold
+  hi HxDiagSign   guifg=#e0211d guibg=#292b2e ctermfg=160 ctermbg=235
 endfunction
 call s:Spacemacs()
 
 function! s:IndentGuides() abort
+  if &filetype ==# 'hxtree'
+    return
+  endif
   let l:sw = shiftwidth()
-  try
+  if has('patch-8.2.5066')
     let &l:listchars = 'tab:│ ,nbsp:⍽,leadmultispace:│' . repeat(' ', l:sw > 1 ? l:sw - 1 : 3)
-  catch
-    let &l:listchars = 'tab:│ ,nbsp:⍽'
-  endtry
+  else
+    let &listchars = 'tab:│ ,nbsp:⍽'
+  endif
   setlocal list
 endfunction
 
 function! s:GitBranch() abort
+  if !executable('git')
+    return
+  endif
   let l:dir = expand('%:p:h')
   if empty(l:dir) || !isdirectory(l:dir)
     let l:dir = getcwd()
   endif
-  let b:hx_branch = trim(system('git -C ' . shellescape(l:dir) . ' branch --show-current 2>/dev/null'))
+  let b:hx_branch = substitute(system('git -C ' . shellescape(l:dir) . ' rev-parse --abbrev-ref HEAD 2>/dev/null'), '\n\|^HEAD$', '', 'g')
+  if v:shell_error
+    let b:hx_branch = ''
+  endif
 endfunction
 
-function! HxStatusline() abort
-  let l:active = g:statusline_winid == win_getid()
-  let l:m = mode()
-  if l:m =~# "^[vV\<C-v>sS\<C-s>]"
-    let [l:label, l:hl] = ['SEL', 'HxSel']
-  elseif l:m =~# '^[iR]'
-    let [l:label, l:hl] = ['INS', 'HxIns']
-  else
-    let [l:label, l:hl] = ['NOR', 'HxNor']
+let g:hx_ext = 0
+
+function! HxExt(on) abort
+  let g:hx_ext = a:on
+  return ''
+endfunction
+
+function! HxFenc() abort
+  return (empty(&fileencoding) || &fileencoding ==# 'utf-8') ? '' : '  ' . &fileencoding
+endfunction
+
+function! HxDiagCount() abort
+  let l:n = len(get(b:, 'hx_diags', {}))
+  return l:n ? '● ' . l:n . '  ' : ''
+endfunction
+
+function! HxStatusline(active) abort
+  let l:s = '%#StatusLineNC#     '
+  if a:active
+    let l:m = mode()
+    if l:m =~# "^[vV\<C-v>]" && g:hx_ext
+      let [l:label, l:hl] = ['SEL', 'HxSel']
+    elseif l:m =~# '^[iR]'
+      let [l:label, l:hl] = ['INS', 'HxIns']
+    else
+      let [l:label, l:hl] = ['NOR', 'HxNor']
+    endif
+    let l:s = '%#' . l:hl . '# ' . l:label . ' %#StatusLine# '
   endif
-  let l:buf = winbufnr(g:statusline_winid)
-  let l:branch = getbufvar(l:buf, 'hx_branch', '')
-  let l:fenc = getbufvar(l:buf, '&fileencoding')
-  let l:s = l:active ? '%#' . l:hl . '# ' . l:label . ' %#StatusLine# ' : '%#StatusLineNC#     '
-  let l:s .= empty(l:branch) ? '' : ' ' . l:branch
+  let l:s .= ' %{get(b:, "hx_branch", "")}'
   let l:s .= '%=%f%{&modified ? "[+]" : ""}%{&readonly ? " [readonly]" : ""}%='
-  let l:s .= '1 sel  %l:%c  %L  %p%%'
-  let l:s .= (empty(l:fenc) || l:fenc ==# 'utf-8') ? '' : '  ' . l:fenc
-  return l:s . ' '
+  let l:s .= (a:active ? '%#HxDiag#' : '') . '%{HxDiagCount()}' . (a:active ? '%#StatusLine#' : '')
+  let l:s .= '1 sel  %l:%c  %L  %p%%%{HxFenc()} '
+  return l:s
 endfunction
 
 function! HxTabline() abort
@@ -162,7 +193,7 @@ function! HxTabline() abort
   return l:s . '%#TabLineFill#'
 endfunction
 
-set statusline=%!HxStatusline()
+set statusline=%!HxStatusline(1)
 set tabline=%!HxTabline()
 
 function! s:ToggleComment(first, last) abort
@@ -170,7 +201,8 @@ function! s:ToggleComment(first, last) abort
   if len(l:parts) != 2
     return
   endif
-  let [l:open, l:close] = [trim(l:parts[0]), trim(l:parts[1])]
+  let l:open = substitute(l:parts[0], '^\s\+\|\s\+$', '', 'g')
+  let l:close = substitute(l:parts[1], '^\s\+\|\s\+$', '', 'g')
   let l:eo = escape(l:open, '\')
   let l:ec = escape(l:close, '\')
   let l:lines = getline(a:first, a:last)
@@ -192,22 +224,146 @@ function! s:ToggleComment(first, last) abort
 endfunction
 command! -range HxComment call s:ToggleComment(<line1>, <line2>)
 
+function! s:Python() abort
+  for l:p in ['python3', '/usr/libexec/platform-python', 'python']
+    if executable(l:p)
+      return l:p
+    endif
+  endfor
+  return ''
+endfunction
+
+let s:py_check = join([
+  \ 'import sys',
+  \ 'p = sys.argv[1]',
+  \ 's = open(p).read()',
+  \ 'try:',
+  \ '    compile(s, p, "exec")',
+  \ 'except SyntaxError as e:',
+  \ '    print("%d:%d:%s" % (e.lineno or 1, e.offset or 1, e.msg))',
+  \ '    sys.exit()',
+  \ 'try:',
+  \ '    from pyflakes import api',
+  \ 'except ImportError:',
+  \ '    sys.exit()',
+  \ 'class R(object):',
+  \ '    def unexpectedError(self, *a): pass',
+  \ '    def syntaxError(self, *a): pass',
+  \ '    def flake(self, m): print("%d:%d:%s" % (m.lineno, m.col + 1, m.message % m.message_args))',
+  \ 'api.check(s, p, R())',
+  \ ], "\n")
+
+let s:yaml_check = join([
+  \ 'import sys',
+  \ 'try:',
+  \ '    import yaml',
+  \ 'except ImportError:',
+  \ '    sys.exit()',
+  \ 'L = yaml.SafeLoader',
+  \ 'L.add_multi_constructor("", lambda l, s, n: None)',
+  \ 'try:',
+  \ '    list(yaml.load_all(open(sys.argv[1]), Loader=L))',
+  \ 'except yaml.MarkedYAMLError as e:',
+  \ '    m = e.problem_mark',
+  \ '    print("%d:%d:%s" % (m.line + 1, m.column + 1, e.problem))',
+  \ ], "\n")
+
+sign define HxDiag text=● texthl=HxDiagSign
+
+function! s:Diagnose() abort
+  let l:out = []
+  let l:py = s:Python()
+  let l:file = shellescape(expand('%:p'))
+  if &filetype ==# 'python' && !empty(l:py)
+    let l:out = systemlist(l:py . ' -c ' . shellescape(s:py_check) . ' ' . l:file)
+  elseif &filetype ==# 'yaml' && !empty(l:py)
+    let l:out = systemlist(l:py . ' -c ' . shellescape(s:yaml_check) . ' ' . l:file)
+  elseif &filetype ==# 'terraform'
+    let l:out = get(b:, 'hx_fmt_diags', [])
+  elseif !exists('b:hx_diags')
+    return
+  endif
+  let l:buf = bufnr('%')
+  for l:id in get(b:, 'hx_sign_ids', [])
+    execute 'sign unplace ' . l:id . ' buffer=' . l:buf
+  endfor
+  let b:hx_diags = {}
+  let b:hx_sign_ids = []
+  let l:items = []
+  for l:line in l:out
+    let l:m = matchlist(l:line, '^\(\d\+\):\(\d\+\):\(.*\)$')
+    if empty(l:m) || has_key(b:hx_diags, l:m[1])
+      continue
+    endif
+    let b:hx_diags[l:m[1]] = l:m[3]
+    call add(l:items, {'bufnr': l:buf, 'lnum': str2nr(l:m[1]), 'col': str2nr(l:m[2]), 'text': l:m[3], 'type': 'E'})
+    call add(b:hx_sign_ids, 7000 + str2nr(l:m[1]))
+    execute 'sign place ' . (7000 + str2nr(l:m[1])) . ' line=' . l:m[1] . ' name=HxDiag buffer=' . l:buf
+  endfor
+  call setloclist(0, l:items)
+endfunction
+
+function! s:EchoDiag() abort
+  let l:msg = get(get(b:, 'hx_diags', {}), line('.'), '')
+  if !empty(l:msg)
+    echohl WarningMsg | echo strpart(l:msg, 0, &columns - 12) | echohl None
+    let s:echoed = 1
+  elseif get(s:, 'echoed', 0)
+    echo ''
+    let s:echoed = 0
+  endif
+endfunction
+
+function! s:Lnav(cmd, wrap) abort
+  try
+    execute a:cmd
+  catch /E553\|E42\|E776/
+    try
+      execute a:wrap
+    catch
+    endtry
+  endtry
+endfunction
+
 let g:hx_formatters = {
-  \ 'rust': 'rustfmt --edition 2024',
-  \ 'go': 'gofmt',
-  \ 'c': 'clang-format --assume-filename=%',
-  \ 'cpp': 'clang-format --assume-filename=%',
+  \ 'python': ['ruff format -', 'black -q -'],
+  \ 'terraform': ['terraform fmt -no-color -'],
+  \ 'go': ['gofmt'],
+  \ 'rust': ['rustfmt --edition 2024'],
   \ }
 
 function! s:Format() abort
-  let l:cmd = get(g:hx_formatters, &filetype, '')
-  if empty(l:cmd) || !executable(split(l:cmd)[0])
+  let l:cmd = ''
+  for l:c in get(g:hx_formatters, &filetype, [])
+    if executable(split(l:c)[0])
+      let l:cmd = l:c
+      break
+    endif
+  endfor
+  if empty(l:cmd)
     return
   endif
-  let l:cmd = substitute(l:cmd, '%', escape(shellescape(expand('%:p')), '\&'), 'g')
+  let l:err = tempname()
   let l:src = getline(1, '$')
-  let l:out = systemlist(l:cmd, l:src)
-  if v:shell_error || l:out ==# l:src
+  let l:out = systemlist('(' . l:cmd . ') 2>' . shellescape(l:err), l:src)
+  let b:hx_fmt_diags = []
+  if v:shell_error
+    let l:msg = ''
+    for l:line in filereadable(l:err) ? readfile(l:err) : []
+      let l:e = matchstr(l:line, 'Error: \zs.*')
+      if !empty(l:e)
+        let l:msg = l:e
+      endif
+      let l:n = matchstr(l:line, ' line \zs\d\+')
+      if !empty(l:n)
+        call add(b:hx_fmt_diags, l:n . ':1:' . l:msg)
+      endif
+    endfor
+    call delete(l:err)
+    return
+  endif
+  call delete(l:err)
+  if l:out ==# l:src
     return
   endif
   let l:view = winsaveview()
@@ -219,28 +375,41 @@ function! s:Format() abort
 endfunction
 command! HxFormat call s:Format()
 
-let g:hx_rg_hidden = 0
-let g:hx_rg_ignore = 1
+let g:hx_hidden = 0
+let g:hx_ignore = 1
 let s:files = []
 
 function! s:FileList() abort
-  if empty(s:files)
-    if executable('rg')
-      let l:cmd = 'rg --files' . (g:hx_rg_hidden ? ' --hidden -g !.git' : '') . (g:hx_rg_ignore ? '' : ' --no-ignore')
-      let s:files = systemlist(l:cmd)
-    else
-      let s:files = filter(glob('**/*', !g:hx_rg_hidden, 1), {_, v -> !isdirectory(v)})
-      if g:hx_rg_hidden
-        let s:files += filter(glob('**/.*', 0, 1), {_, v -> !isdirectory(v) && v !~# '\.git/'})
-      endif
+  if !empty(s:files)
+    return s:files
+  endif
+  if executable('rg')
+    let s:files = systemlist('rg --files' . (g:hx_hidden ? ' --hidden -g !.git' : '') . (g:hx_ignore ? '' : ' --no-ignore'))
+  elseif g:hx_ignore && executable('git') && !empty(system('git rev-parse --show-toplevel 2>/dev/null'))
+    let s:files = systemlist('git ls-files -co --exclude-standard')
+    if !g:hx_hidden
+      call filter(s:files, {_, v -> v !~# '\(^\|/\)\.'})
+    endif
+  else
+    let s:files = filter(glob('**/*', !g:hx_ignore, 1), {_, v -> !isdirectory(v)})
+    if g:hx_hidden
+      let s:files += filter(glob('**/.*', 0, 1), {_, v -> !isdirectory(v) && v !~# '\.git/'})
     endif
   endif
   return s:files
 endfunction
 
+function! s:Fuzzy(list, lead) abort
+  if exists('*matchfuzzy')
+    return matchfuzzy(a:list, a:lead)
+  endif
+  let l:pat = '\V' . join(map(split(a:lead, '\zs'), {_, c -> escape(c, '\')}), '\.\{-}')
+  return filter(copy(a:list), {_, v -> v =~? l:pat})
+endfunction
+
 function! HxFileComplete(lead, line, pos) abort
   let l:files = s:FileList()
-  return empty(a:lead) ? l:files[: 500] : matchfuzzy(l:files, a:lead)[: 500]
+  return (empty(a:lead) ? l:files : s:Fuzzy(l:files, a:lead))[: 500]
 endfunction
 command! -nargs=1 -complete=customlist,HxFileComplete HxFind edit <args>
 command! -nargs=+ HxGrep execute 'silent grep! ' . <q-args> | copen | redraw!
@@ -248,10 +417,256 @@ command! -nargs=+ HxGrep execute 'silent grep! ' . <q-args> | copen | redraw!
 function! s:TogglePicker(opt) abort
   let g:{a:opt} = !g:{a:opt}
   let s:files = []
-  if a:opt ==# 'hx_rg_hidden'
-    let g:netrw_hide = !g:hx_rg_hidden
-  endif
+  for l:w in range(1, winnr('$'))
+    if getbufvar(winbufnr(l:w), '&filetype') ==# 'hxtree'
+      let l:cur = winnr()
+      execute l:w . 'wincmd w'
+      call s:TreeRender()
+      execute l:cur . 'wincmd w'
+    endif
+  endfor
   echo a:opt . ' = ' . g:{a:opt}
+endfunction
+
+function! s:Tmux(args) abort
+  return systemlist('tmux ' . a:args)
+endfunction
+
+function! s:ToTmux() abort
+  if !empty($TMUX)
+    call system('tmux load-buffer -', @")
+  endif
+endfunction
+
+function! s:FromTmux() abort
+  if !empty($TMUX)
+    let l:text = system('tmux save-buffer -')
+    if !v:shell_error
+      call setreg('"', l:text, l:text =~# '\n$' ? 'V' : 'v')
+    endif
+  endif
+endfunction
+
+function! s:TreeList(dir) abort
+  let l:items = glob(fnameescape(a:dir) . '/*', 1, 1)
+  if g:hx_hidden
+    let l:items += filter(glob(fnameescape(a:dir) . '/.[^.]*', 1, 1) + glob(fnameescape(a:dir) . '/..?*', 1, 1), {_, v -> v !~# '/\.git$'})
+  endif
+  let l:dirs = sort(filter(copy(l:items), {_, v -> isdirectory(v)}))
+  let l:files = sort(filter(copy(l:items), {_, v -> !isdirectory(v)}))
+  return l:dirs + l:files
+endfunction
+
+function! s:TreeWalk(dir, depth, lines) abort
+  for l:p in s:TreeList(a:dir)
+    let l:isdir = isdirectory(l:p)
+    let l:open = l:isdir && get(b:hx_open, l:p, 0)
+    call add(a:lines, repeat('  ', a:depth) . (l:isdir ? (l:open ? '▾ ' : '▸ ') : '  ') . fnamemodify(l:p, ':t') . (l:isdir ? '/' : ''))
+    call add(b:hx_items, l:p)
+    if l:open
+      call s:TreeWalk(l:p, a:depth + 1, a:lines)
+    endif
+  endfor
+endfunction
+
+function! s:TreeRender() abort
+  let l:lnum = line('.')
+  let b:hx_items = [fnamemodify(b:hx_root, ':h')]
+  let l:lines = [fnamemodify(b:hx_root, ':~') . (b:hx_root ==# '/' ? '' : '/')]
+  call s:TreeWalk(b:hx_root, 0, l:lines)
+  setlocal modifiable
+  silent %delete _
+  call setline(1, l:lines)
+  setlocal nomodifiable nomodified
+  call cursor(min([l:lnum, line('$')]), 1)
+endfunction
+
+function! s:TreeFind(path) abort
+  let l:i = index(b:hx_items, a:path)
+  if l:i >= 0
+    call cursor(l:i + 1, 1)
+  endif
+endfunction
+
+function! s:TreeRoot(dir) abort
+  let l:old = b:hx_root
+  let b:hx_root = a:dir
+  call s:TreeRender()
+  call s:TreeFind(l:old)
+endfunction
+
+function! s:TreeEnter() abort
+  let l:p = get(b:hx_items, line('.') - 1, '')
+  if line('.') == 1
+    call s:TreeRoot(l:p)
+  elseif isdirectory(l:p)
+    let b:hx_open[l:p] = !get(b:hx_open, l:p, 0)
+    call s:TreeRender()
+  elseif !empty(l:p)
+    call s:TreeOpen(l:p)
+  endif
+endfunction
+
+function! s:TreeCollapse() abort
+  let l:p = get(b:hx_items, line('.') - 1, '')
+  if line('.') > 1 && isdirectory(l:p) && get(b:hx_open, l:p, 0)
+    let b:hx_open[l:p] = 0
+    call s:TreeRender()
+  elseif line('.') > 1
+    let l:parent = fnamemodify(l:p, ':h')
+    if l:parent ==# b:hx_root
+      call cursor(1, 1)
+    else
+      call s:TreeFind(l:parent)
+    endif
+  endif
+endfunction
+
+function! s:TreeCd() abort
+  let l:p = get(b:hx_items, line('.') - 1, '')
+  if isdirectory(l:p)
+    call s:TreeRoot(l:p)
+    execute 'lcd ' . fnameescape(l:p)
+  endif
+endfunction
+
+function! s:TmuxOpen(path) abort
+  let l:me = $TMUX_PANE
+  let l:main = get(s:Tmux('show -wqv -t ' . shellescape(l:me) . ' @main'), 0, '')
+  let l:best = []
+  let l:area = -1
+  for l:line in s:Tmux('list-panes -t ' . shellescape(l:me) . ' -F ' . shellescape('#{pane_id} #{pane_width} #{pane_height} #{pane_current_command}'))
+    let l:f = split(l:line)
+    if len(l:f) < 4 || l:f[0] ==# l:me
+      continue
+    endif
+    if l:f[0] ==# l:main
+      let l:best = l:f
+      break
+    endif
+    if l:f[1] * l:f[2] > l:area
+      let [l:best, l:area] = [l:f, l:f[1] * l:f[2]]
+    endif
+  endfor
+  let l:vim = 'vim ' . shellescape(a:path)
+  if empty(l:best)
+    call s:Tmux('split-window -h -t ' . shellescape(l:me) . ' ' . shellescape(l:vim))
+    return
+  endif
+  let l:t = ' -t ' . shellescape(l:best[0])
+  if l:best[3] =~# '^g\?vim\?$\|^vi$\|^view$'
+    call s:Tmux('send-keys' . l:t . ' C-\\ C-n \; send-keys' . l:t . ' -l ' . shellescape(':edit ' . fnameescape(a:path)) . ' \; send-keys' . l:t . ' Enter')
+  elseif l:best[3] =~# '^-\?\(ba\|z\|k\|da\|fi\|tc\|c\)\?sh$'
+    call s:Tmux('send-keys' . l:t . ' C-u \; send-keys' . l:t . ' -l ' . shellescape(l:vim) . ' \; send-keys' . l:t . ' Enter')
+  else
+    call s:Tmux('new-window -c ' . shellescape(fnamemodify(a:path, ':h')) . ' ' . shellescape(l:vim))
+    return
+  endif
+  call s:Tmux('select-pane' . l:t)
+endfunction
+
+function! s:TreeOpen(path) abort
+  if get(g:, 'hx_sidebar', 0) && !empty($TMUX_PANE)
+    call s:TmuxOpen(a:path)
+    return
+  endif
+  let l:tree = winnr()
+  wincmd p
+  if winnr() == l:tree
+    rightbelow vnew
+    let l:new = winnr()
+    execute l:tree . 'wincmd w'
+    execute 'vertical resize ' . max([20, &columns * 15 / 100])
+    execute l:new . 'wincmd w'
+  endif
+  execute 'edit ' . fnameescape(a:path)
+endfunction
+
+function! s:Tree(dir) abort
+  let l:root = fnamemodify(empty(a:dir) ? getcwd() : a:dir, ':p')
+  let l:root = l:root ==# '/' ? l:root : substitute(l:root, '/$', '', '')
+  let l:fresh = argc() == 0 && bufname('%') ==# '' && line('$') == 1 && getline(1) ==# '' && winnr('$') == 1
+  if l:fresh && !empty($TMUX)
+    let g:hx_sidebar = 1
+    set showtabline=0
+  else
+    for l:w in range(1, winnr('$'))
+      if getbufvar(winbufnr(l:w), '&filetype') ==# 'hxtree'
+        execute l:w . 'wincmd c'
+        return
+      endif
+    endfor
+    let l:file = expand('%:p')
+    topleft vertical new
+    execute 'vertical resize ' . max([20, &columns * 15 / 100])
+    setlocal winfixwidth
+  endif
+  setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nowrap nonumber nolist nocursorcolumn
+  setlocal filetype=hxtree
+  setlocal statusline=%#HxNor#\ EXPLORER\ %#StatusLine#\ %{fnamemodify(get(b:,'hx_root',''),':t')}
+  let b:hx_root = l:root
+  let b:hx_open = {}
+  syntax match HxTreeRoot '\%1l.*'
+  syntax match HxTreeDir '[▾▸] .*/$'
+  hi link HxTreeRoot Title
+  hi link HxTreeDir Directory
+  nnoremap <buffer> <silent> <CR> :call <SID>TreeEnter()<CR>
+  nnoremap <buffer> <silent> l :call <SID>TreeEnter()<CR>
+  nnoremap <buffer> <silent> o :call <SID>TreeEnter()<CR>
+  nnoremap <buffer> <silent> <2-LeftMouse> :call <SID>TreeEnter()<CR>
+  nnoremap <buffer> <silent> h :call <SID>TreeCollapse()<CR>
+  nnoremap <buffer> <silent> - :call <SID>TreeRoot(fnamemodify(b:hx_root, ':h'))<CR>
+  nnoremap <buffer> <silent> <BS> :call <SID>TreeRoot(fnamemodify(b:hx_root, ':h'))<CR>
+  nnoremap <buffer> <silent> C :call <SID>TreeCd()<CR>
+  nnoremap <buffer> <silent> . :call <SID>TogglePicker('hx_hidden')<CR>
+  nnoremap <buffer> <silent> R :call <SID>TreeRender()<CR>
+  nnoremap <buffer> <silent> q :quit<CR>
+  call s:TreeRender()
+  if exists('l:file') && !empty(l:file)
+    let l:dir = fnamemodify(l:file, ':h')
+    while len(l:dir) > len(l:root) && stridx(l:dir, l:root) == 0
+      let b:hx_open[l:dir] = 1
+      let l:dir = fnamemodify(l:dir, ':h')
+    endwhile
+    call s:TreeRender()
+    call s:TreeFind(l:file)
+  endif
+endfunction
+command! -nargs=? -complete=dir HxTree call s:Tree(<q-args>)
+
+function! s:Sel(motion, visual) abort
+  let l:n = v:count1
+  let g:hx_ext = 0
+  if a:visual
+    let l:at = getpos('.')
+    if a:motion =~? 'w'
+      execute 'normal! ' . a:motion
+    elseif a:motion =~? 'e'
+      normal! l
+      if getpos('.') == l:at && line('.') < line('$')
+        normal! j0
+      endif
+    elseif getline('.')[col('.') - 1] =~# '\S' && col('.') > 1 && getline('.')[col('.') - 2] =~# '\s'
+      normal! h
+    endif
+  endif
+  let l:anchor = getpos('.')
+  execute 'normal! ' . l:n . a:motion
+  if a:motion =~? 'w'
+    let l:head = getpos('.')
+    if l:head[1] > l:anchor[1]
+      let l:prev = l:head[1] - 1
+      call cursor(l:prev, max([1, col([l:prev, '$']) - 1]))
+    elseif l:head != l:anchor
+      normal! h
+    else
+      normal! $
+    endif
+  endif
+  let l:head = getpos('.')
+  call setpos('.', l:anchor)
+  normal! v
+  call setpos('.', l:head)
 endfunction
 
 let s:pairs = {'(': ')', '[': ']', '{': '}', '"': '"', "'": "'", '`': '`'}
@@ -300,7 +715,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <C-k> <C-o>D
 
 if !has('gui_running')
-  for s:k in ['r', 'g']
+  for s:k in ['r', 'g', 'd', 'c', ';', '.']
     execute "set <M-" . s:k . ">=\e" . s:k
   endfor
   execute "set <F13>=\e\r"
@@ -309,14 +724,61 @@ endif
 nnoremap <Space> <Nop>
 xnoremap <Space> <Nop>
 
+nnoremap <silent> w :<C-u>call <SID>Sel('w', 0)<CR>
+nnoremap <silent> W :<C-u>call <SID>Sel('W', 0)<CR>
+nnoremap <silent> e :<C-u>call <SID>Sel('e', 0)<CR>
+nnoremap <silent> E :<C-u>call <SID>Sel('E', 0)<CR>
+nnoremap <silent> b :<C-u>call <SID>Sel('b', 0)<CR>
+nnoremap <silent> B :<C-u>call <SID>Sel('B', 0)<CR>
+for s:m in ['w', 'W', 'e', 'E', 'b', 'B']
+  execute printf('xnoremap <silent> <expr> %s g:hx_ext ? %s : "\<Esc>:\<C-u>call <SID>Sel(%s, 1)\<CR>"', s:m, string(s:m =~? 'w' ? 'l' . s:m . 'h' : s:m), string(s:m))
+endfor
+for s:m in ['f', 't', 'F', 'T']
+  execute printf('nnoremap <expr> %s HxExt(0) . "v%s"', s:m, s:m)
+  execute printf('xnoremap <expr> %s g:hx_ext ? %s : "\<Esc>v%s"', s:m, string(s:m), s:m)
+endfor
+for [s:k, s:m] in [['h', 'h'], ['j', 'j'], ['k', 'k'], ['l', 'l'], ['gh', '0'], ['gl', 'g_'], ['gs', '^'], ['ge', 'G'], ['gg', 'gg'], ['G', 'G'], ['{', '{'], ['}', '}']]
+  execute printf('xnoremap <expr> %s g:hx_ext ? %s : "\<Esc>%s"', s:k, string(s:m), s:m)
+endfor
+
+nnoremap <expr> v HxExt(1) . 'v'
+xnoremap <expr> v HxExt(!g:hx_ext)
+nnoremap <expr> V HxExt(0) . 'V'
+nnoremap <expr> gv HxExt(0) . 'gv'
+xnoremap ; <Esc>
+xnoremap <M-;> o
+
+nnoremap d x
+nnoremap c s
+nnoremap y yl
+nnoremap <M-d> "_x
+nnoremap <M-c> "_s
+xnoremap <M-d> "_d
+xnoremap <M-c> "_c
+nnoremap <expr> R has('patch-8.2.4242') ? 'vP' : 'vp'
+xnoremap <expr> R has('patch-8.2.4242') ? 'P' : 'p'
+xnoremap p <Esc>`>p
+xnoremap P <Esc>`<P
+xnoremap u <Esc>u
+xnoremap U <Esc><C-r>
+xnoremap ` u
+xnoremap i <Esc>`<i
+xnoremap a <Esc>`>a
+xnoremap o <Esc>o
+xnoremap O <Esc>O
+xnoremap mi i
+xnoremap ma a
+xnoremap * "zy:let @/ = '\V' . escape(@z, '/\')<CR>
+nnoremap <expr> n HxExt(0) . 'ngn'
+nnoremap <expr> N HxExt(0) . 'NgN'
+xnoremap <expr> n g:hx_ext ? 'gn' : "\<Esc>ngn"
+xnoremap <expr> N g:hx_ext ? 'gN' : "\<Esc>`<NgN"
+cnoremap <expr> <CR> getcmdtype() =~# '[/?]' ? "\<CR>" . HxExt(0) . "gn" : "\<CR>"
+
 nnoremap gh 0
-xnoremap gh 0
 nnoremap gl $
-xnoremap gl g_
 nnoremap gs ^
-xnoremap gs ^
 nnoremap ge G
-xnoremap ge G
 nnoremap gt H
 nnoremap gc M
 nnoremap gb L
@@ -326,21 +788,23 @@ nnoremap ga <C-^>
 nnoremap <silent> gn :bnext<CR>
 nnoremap <silent> gp :bprevious<CR>
 
-nnoremap x V
-xnoremap <expr> x mode() ==# 'V' ? 'j' : 'V'
-nnoremap X V
-xnoremap <expr> X mode() ==# 'V' ? 'k' : 'V'
-nnoremap % ggVG
+nnoremap <expr> x HxExt(0) . 'V'
+xnoremap <expr> x HxExt(0) . (mode() ==# 'V' ? 'j' : 'V')
+nnoremap <expr> X HxExt(0) . 'V'
+xnoremap <expr> X HxExt(0) . (mode() ==# 'V' ? 'k' : 'V')
+nnoremap <expr> % HxExt(0) . 'ggVG'
 nnoremap mm %
 xnoremap mm %
-nnoremap mi vi
-nnoremap ma va
-xnoremap ; <Esc>
+nnoremap <expr> mi HxExt(0) . 'vi'
+nnoremap <expr> ma HxExt(0) . 'va'
 nnoremap U <C-r>
 nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
 xnoremap < <gv
+nnoremap <expr> Q exists('*reg_recording') && reg_recording() !=# '' ? 'q' : 'qq'
+nnoremap q @q
+nnoremap <M-.> ;
 nnoremap <silent> <C-c> :HxComment<CR>
 xnoremap <silent> <C-c> :HxComment<CR>gv
 
@@ -351,36 +815,47 @@ xnoremap <silent> <C-k> :move '<-2<CR>gv
 nnoremap <silent> <C-r> :source $MYVIMRC <Bar> edit!<CR>
 nnoremap <F13> -
 
-nnoremap <silent> <M-r> :Lexplore %:p:h<CR>
+nnoremap <silent> <M-r> :HxTree<CR>
 nnoremap <M-g>b :execute '!git blame -L ' . line('.') . ',+1 -- %:S'<CR>
 nnoremap <M-g>l :!git log --oneline -10 -- %:S<CR>
 nnoremap <M-g>s :!git status --porcelain<CR>
 
 nnoremap <BS>c :edit $MYVIMRC<CR>
-nnoremap <BS>d :copen<CR>
-nnoremap <silent> <BS>h :call <SID>TogglePicker('hx_rg_hidden')<CR>
-nnoremap <silent> <BS>i :call <SID>TogglePicker('hx_rg_ignore')<CR>
+nnoremap <silent> <BS>d :call <SID>Diagnose()<CR>:lopen<CR>
+nnoremap <silent> <BS>h :call <SID>TogglePicker('hx_hidden')<CR>
+nnoremap <silent> <BS>i :call <SID>TogglePicker('hx_ignore')<CR>
 nnoremap <BS>l :execute 'edit ' . fnameescape(expand('~/.vim/after/ftplugin/' . &filetype . '.vim'))<CR>
 
-nnoremap <Space>f :HxFind <C-z>
-nnoremap <Space>F :HxFind <C-z>
-nnoremap <Space>b :buffer <C-z>
+if &wildmode =~# 'noselect'
+  nnoremap <Space>f :HxFind <C-z>
+  nnoremap <Space>b :buffer <C-z>
+else
+  nnoremap <Space>f :HxFind<Space>
+  nnoremap <Space>b :buffer<Space>
+endif
+nmap <Space>F <Space>f
 nnoremap <Space>j :jumps<CR>
-nnoremap <Space>d :copen<CR>
+nnoremap <silent> <Space>d :lopen<CR>
+nnoremap <silent> ]d :call <SID>Lnav('lnext', 'lfirst')<CR>
+nnoremap <silent> [d :call <SID>Lnav('lprevious', 'llast')<CR>
 nnoremap <Space>/ :HxGrep<Space>
 nnoremap <Space>w <C-w>
-nnoremap <Space>y "+y
-xnoremap <Space>y "+y
-nnoremap <Space>Y "+yy
-nnoremap <Space>p "+p
-xnoremap <Space>p "+p
-nnoremap <Space>P "+P
-xnoremap <Space>R "_d"+P
+if has('clipboard')
+  xnoremap <Space>y "+y
+  nnoremap <Space>y "+yy
+  nnoremap <Space>p "+p
+  nnoremap <Space>P "+P
+else
+  xnoremap <silent> <Space>y y:call <SID>ToTmux()<CR>
+  nnoremap <silent> <Space>y yy:call <SID>ToTmux()<CR>
+  nnoremap <silent> <Space>p :call <SID>FromTmux()<CR>p
+  nnoremap <silent> <Space>P :call <SID>FromTmux()<CR>P
+endif
 nnoremap <Space>k K
 nnoremap <silent> <Space>c :HxComment<CR>
 xnoremap <silent> <Space>c :HxComment<CR>gv
-nnoremap <silent> <Space>e :Lexplore<CR>
-nnoremap <silent> <Space>E :Lexplore %:p:h<CR>
+nnoremap <silent> <Space>e :HxTree<CR>
+nnoremap <silent> <Space>E :execute 'HxTree ' . fnameescape(expand('%:p:h'))<CR>
 nnoremap <Space>? :map<CR>
 
 function! s:Abbr(from, to) abort
@@ -398,17 +873,63 @@ call s:Abbr('fmt', 'HxFormat')
 call s:Abbr('sh', '!')
 call s:Abbr('theme', 'colorscheme')
 
+function! s:HclSyntax() abort
+  syntax clear
+  syntax keyword hclBlock resource data variable output locals module provider terraform moved import check removed backend required_providers lifecycle dynamic content
+  syntax keyword hclBool true false null
+  syntax keyword hclKeyword for in if else endif endfor
+  syntax keyword hclType string number bool list map set object tuple any
+  syntax match hclNumber '\<\d\+\(\.\d\+\)\?\>'
+  syntax match hclFunc '\<[a-z_][a-z0-9_]*\ze('
+  syntax match hclAttr '^\s*\zs[A-Za-z_][A-Za-z0-9_-]*\ze\s*='
+  syntax region hclInterp matchgroup=hclInterpDelim start='[$%]{' end='}' contained contains=hclNumber,hclBool,hclFunc,hclKeyword,hclString
+  syntax region hclString start=+"+ skip=+\\"+ end=+"+ contains=hclInterp
+  syntax region hclHeredoc start='<<-\?\z([A-Z_]\+\)' end='^\s*\z1$' contains=hclInterp
+  syntax match hclComment '\(#\|//\).*$'
+  syntax region hclComment start='/\*' end='\*/'
+  hi def link hclBlock Statement
+  hi def link hclKeyword Statement
+  hi def link hclBool Constant
+  hi def link hclNumber Constant
+  hi def link hclType Type
+  hi def link hclFunc Function
+  hi def link hclAttr Identifier
+  hi def link hclString String
+  hi def link hclHeredoc String
+  hi def link hclInterpDelim Special
+  hi def link hclComment Comment
+  let b:current_syntax = 'terraform'
+endfunction
+
 augroup hx
   autocmd!
+  autocmd BufRead,BufNewFile *.tf,*.tfvars,*.hcl,*.tftpl,.terraformrc,terraform.rc set filetype=terraform
+  autocmd BufRead,BufNewFile *.j2 execute 'doautocmd filetypedetect BufRead ' . fnameescape(expand('<afile>:r'))
+  autocmd FileType yaml,terraform,json setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+  autocmd FileType yaml setlocal indentkeys-=0# indentkeys-=<:>
+  autocmd FileType terraform setlocal commentstring=#\ %s
+  autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+  autocmd Syntax terraform call s:HclSyntax()
   autocmd BufWinEnter,FileType * call s:IndentGuides()
   autocmd OptionSet shiftwidth,tabstop call s:IndentGuides()
+  autocmd WinEnter,BufWinEnter * if &filetype !=# 'hxtree' | setlocal statusline=%!HxStatusline(1) | endif
+  autocmd WinLeave * if &filetype !=# 'hxtree' | setlocal statusline=%!HxStatusline(0) | endif
   autocmd BufEnter * if !exists('b:hx_branch') | call s:GitBranch() | endif
   autocmd BufWritePost,FocusGained * call s:GitBranch()
   autocmd BufWritePre * call s:Format()
+  autocmd BufReadPost,BufWritePost * call s:Diagnose()
+  autocmd CursorHold * call s:EchoDiag()
+  if exists('##ModeChanged')
+    autocmd ModeChanged [vV\x16]*:n* let g:hx_ext = 0
+  endif
   autocmd FocusGained,BufEnter * silent! checktime
-  autocmd CmdlineEnter : let s:files = []
+  if exists('##CmdlineEnter')
+    autocmd CmdlineEnter : let s:files = []
+  endif
   if exists('*wildtrigger')
     autocmd CmdlineChanged : call wildtrigger()
   endif
   autocmd ColorScheme * if get(g:, 'colors_name', '') !=# 'spacemacs' | hi HxNor gui=reverse cterm=reverse | hi HxIns gui=reverse cterm=reverse | hi HxSel gui=reverse cterm=reverse | endif
 augroup END
+
+endif
