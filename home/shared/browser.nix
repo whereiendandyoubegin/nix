@@ -82,7 +82,13 @@ in
                 %slot-value%))))
 
       (defvar *js-allowed-domains*
-        '("google.com"))
+        '("google.com"
+          "claude.ai"
+          "anthropic.com"
+          "192.168.1.69"))
+
+      (setf nyxt/mode/certificate-exception:*default-certificate-exceptions*
+            '("192.168.1.69"))
 
       (defun js-allowed-p (url)
         (let ((host (quri:uri-host url)))
