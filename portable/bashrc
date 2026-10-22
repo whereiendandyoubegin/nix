@@ -1,0 +1,82 @@
+[ -f /etc/bashrc ] && . /etc/bashrc
+
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+if [ -z "$TMUX" ] && [ -t 1 ] && command -v tmux >/dev/null 2>&1; then
+  tmux -2 -u new -A -s main && exit
+fi
+
+export EDITOR=vim VISUAL=vim PAGER=less LESS=-R
+command -v vim >/dev/null 2>&1 && alias vi=vim
+alias tmux='tmux -2 -u'
+alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
+alias la='ls -lAh --color=auto'
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+HISTSIZE=50000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth:erasedups
+HISTTIMEFORMAT='%F %T  '
+shopt -s histappend cmdhist checkwinsize autocd cdspell dirspell globstar extglob 2>/dev/null
+PROMPT_COMMAND="history -a${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+
+for f in /usr/share/bash-completion/bash_completion /etc/bash_completion; do
+  [ -z "$BASH_COMPLETION_VERSINFO" ] && [ -r "$f" ] && . "$f" && break
+done
+command -v terraform >/dev/null 2>&1 && complete -C "$(command -v terraform)" terraform
+
+bind 'set completion-ignore-case on'
+bind 'set completion-map-case on'
+bind 'set show-all-if-ambiguous on'
+bind 'set show-all-if-unmodified on'
+bind 'set menu-complete-display-prefix on'
+bind 'set colored-stats on'
+bind 'set colored-completion-prefix on'
+bind 'set visible-stats on'
+bind 'set mark-symlinked-directories on'
+bind 'set skip-completed-text on'
+bind 'set page-completions off'
+bind 'set completion-query-items 200'
+bind 'set bell-style none'
+bind 'set enable-bracketed-paste on'
+bind 'TAB: menu-complete'
+bind '"\e[Z": menu-complete-backward'
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\eOA": history-search-backward'
+bind '"\eOB": history-search-forward'
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+bind '"\eOC": forward-word'
+bind '"\eOD": backward-word'
+bind '"\C-h": backward-kill-word'
+
+__hx_branch() {
+  local d=$PWD head
+  while [ -n "$d" ]; do
+    if [ -f "$d/.git/HEAD" ]; then
+      read -r head < "$d/.git/HEAD"
+      case $head in
+        ref:*) __hx_git=" ${head##*/}" ;;
+        *) __hx_git=" ${head:0:7}" ;;
+      esac
+      return
+    fi
+    d=${d%/*}
+  done
+  __hx_git=
+}
+
+__hx_prompt() {
+  local s=$?
+  __hx_branch
+  if [ $s -eq 0 ]; then __hx_mark='\[\e[38;5;29m\]❯'; else __hx_mark='\[\e[38;5;160m\]❯'; fi
+  PS1='\[\e[38;5;170m\]\u@\h \[\e[38;5;68m\]\w\[\e[38;5;136m\]$__hx_git '"$__hx_mark"'\[\e[0m\] '
+}
+PROMPT_COMMAND="__hx_prompt; $PROMPT_COMMAND"
