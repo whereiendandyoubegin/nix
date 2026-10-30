@@ -66,6 +66,7 @@
 
   programs.zsh.enable = true;
   programs.kdeconnect.enable = true;
+  nix.gc.dates = "weekly";
 
   system.stateVersion = "24.05";
 }

@@ -75,8 +75,7 @@
     distributedBuilds = true;
 
     gc = {
-      automatic = true;
-      dates = "weekly";
+      automatic = true; 
       options = "--delete-older-than 30d";
     };
   };
@@ -96,6 +95,6 @@
   programs.ssh.extraConfig = ''
     Host flake-updater hydra
       User dan
-      IdentityFile /home/dan/.ssh/id_ed25519_nixology
+      IdentityFile "${config.users.users.dan.Home}/.ssh/id_ed25519_nixology"
   '';
 }

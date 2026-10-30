@@ -61,7 +61,12 @@
       url = "git+https://codeberg.org/kabouik/nyxt-config";
       flake = false;
     };
-  };
+
+    nix-darwin = {
+	url = "github:nix-darwin/nix-darwin/master";
+	inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };	
 
   outputs = { self, nixpkgs, home-manager, caelestia, fenix, nyxt-src, ... }@inputs:
     let
@@ -99,6 +104,23 @@
             }
           ];
         };
+	darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
+	  specialArgs = { inherit inputs; };
+	  modules = [
+	    ./hosts/mac/configuration.nix
+	    ./modules/system/nix.nix
+	    home-manager.darwinModules.home-manager
+	    {
+	      home-manager = {
+		useGlobalPkgs = true;
+		useUserPackages = true;
+		backupFileExtension = ".backup";
+		users.dan = import ./home/mac;
+		extraSpecialArgs = { inherit inputs; };
+	      };
+	    }
+	  ];
+	};	
       };
 
       homeConfigurations."dan@dan-nix" = home-manager.lib.homeManagerConfiguration {
