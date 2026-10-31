@@ -1,15 +1,9 @@
 { config, pkgs, lib, inputs, ... }:
 let
-  nuPkgs = inputs.yazelix.inputs.nixpkgs.legacyPackages.${pkgs.system};
+  nuPkgs = inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}; 
   nushellPlugins = nuPkgs.nushellPlugins;
   pluginNamesNixpkgs = [ "polars" "query" ];
-  nu_plugin_typetree = nuPkgs.rustPlatform.buildRustPackage {
-    pname = "nu_plugin_typetree";
-    version = "0.113.1";
-    src = inputs.nu_plugin_typetree;
-    cargoLock.lockFile = "${inputs.nu_plugin_typetree}/Cargo.lock";
-    doCheck = false;
-  };
+  nu_plugin_typetree = inputs.nu_plugin_typetree.packages.${pkgs.stdenv.hostPlatform.system}.default;
 activateNushellPluginsNuScript = nuPkgs.writeTextFile {
     name = "activateNushellPlugins";
     destination = "/bin/activateNushellPlugins.nu";
@@ -35,6 +29,7 @@ in
   xdg.configFile."nushell/plugin.msgpackz".source = "${msgPackz}/plugin.msgpackz";
   programs.nushell = {
     enable = true;
+    package = nuPkgs.nushell;
     configFile.text = ''
       $env.config = {
         show_banner: false

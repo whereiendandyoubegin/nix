@@ -326,7 +326,8 @@ in
             }
           }
 
-          alias "ns" = sudo nixos-rebuild switch --flake ~/cloned/nixpublic --fast
+          alias "ns" = ${config.home.shellAliases.ns}          
+
           alias "cloned" = cd ~/cloned
 
           export-env {

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   xdg = config.home-manager.users.dan.xdg;
 in
@@ -17,6 +17,13 @@ in
     XDG_CACHE_HOME = xdg.cacheHome;
     XDG_DATA_HOME = xdg.dataHome;
     XDG_STATE_HOME = xdg.stateHome;
+  };
+  
+  environment.systemPackages = [ (pkgs.callPackage ../../pkgs/nehir.nix { }) ];  
+
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
   };
 
   system.stateVersion = 6;

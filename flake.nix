@@ -28,7 +28,7 @@
     };
 
     yazelix = {
-      url = "github:luccahuguet/yazelix/edge";
+      url = "github:luccahuguet/yazelix/main";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -43,7 +43,7 @@
     };
 
     nu_plugin_typetree = {
-      url = "github:whereiendandyoubegin/nu_plugin_typetree/d07c6a507c0cb4ad0ce8c03855b9a8737eccdc45";
+      url = "github:whereiendandyoubegin/nu_plugin_typetree";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

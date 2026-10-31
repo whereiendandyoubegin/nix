@@ -8,12 +8,18 @@
             features = old.cargoBuildFeatures ++ [ "audio-viz-cpal" "macos-media" ];
           in
           {
-            nativeBuildInputs = [ final.pkg-config final.rustPlatform.bindgenHook ];
-            buildInputs = [ final.openssl final.portaudio ];
+            nativeBuildInputs = old.nativeBuildInputs ++ [ final.rustPlatform.bindgenHook ];
+            buildInputs =
+              builtins.filter (p: (p.pname or "") != "alsa-lib") old.buildInputs
+              ++ [ final.portaudio ];
             cargoBuildFeatures = features;
             cargoCheckFeatures = features;
             meta = old.meta // { platforms = lib.platforms.linux ++ lib.platforms.darwin; };
           });
+      
+      concord-tui = prev.concord-tui.overrideAttrs (old: {
+        nativeBuildInputs = old.nativeBuildInputs ++ [ final.rustPlatform.bindgenHook ];
+      });
     })
   ];
 }

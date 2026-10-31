@@ -54,7 +54,7 @@
       {
         hostName = "flake-updater";
         sshUser = "dan";
-        sshKey = "/home/dan/.ssh/id_ed25519_nixology";
+        sshKey = "${config.users.users.dan.home}/.ssh/id_ed25519_nixology"; 
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 4;
@@ -64,7 +64,7 @@
       {
         hostName = "hydra";
         sshUser = "dan";
-        sshKey = "/home/dan/.ssh/id_ed25519_nixology";
+        sshKey = "${config.users.users.dan.home}/.ssh/id_ed25519_nixology";        
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 4;
@@ -95,6 +95,6 @@
   programs.ssh.extraConfig = ''
     Host flake-updater hydra
       User dan
-      IdentityFile "${config.users.users.dan.Home}/.ssh/id_ed25519_nixology"
+      IdentityFile "${config.users.users.dan.home}/.ssh/id_ed25519_nixology"
   '';
 }
