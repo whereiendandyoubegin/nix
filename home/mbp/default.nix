@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   imports = [
     ../shared/git.nix
     ../shared/terminal.nix
@@ -11,10 +11,10 @@
   home.packages = with pkgs; [
     git python3 llvm lld ninja tree 
     whois curl jq yq ast-grep fd fzf
-    less wget swiftcord discordo
+    less wget discordo
     spotatui unzip unrar zip uv
     ethtool usbutils ffmpeg btop iotop
-    python3.packages.python-lsp-server
+    python3Packages.python-lsp-server
     clang-tools clang openssl screen 
     nix-fast-build age sops codex
     

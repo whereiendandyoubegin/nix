@@ -68,7 +68,7 @@
     };
   };	
 
-  outputs = { self, nixpkgs, home-manager, caelestia, fenix, nyxt-src, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, caelestia, fenix, nyxt-src, nix-darwin, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -103,25 +103,28 @@
               };
             }
           ];
-        };
-	darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
-	  specialArgs = { inherit inputs; };
-	  modules = [
-	    ./hosts/mac/configuration.nix
-	    ./modules/system/nix.nix
-	    home-manager.darwinModules.home-manager
-	    {
-	      home-manager = {
-		useGlobalPkgs = true;
-		useUserPackages = true;
-		backupFileExtension = ".backup";
-		users.dan = import ./home/mac;
-		extraSpecialArgs = { inherit inputs; };
-	      };
-	    }
-	  ];
-	};	
+        };	
       };
+
+      darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/mbp/configuration.nix
+          ./modules/system/nix.nix
+	  ./modules/darwin/spotatui.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = ".backup";
+              users.dan = import ./home/mbp;
+              extraSpecialArgs = { inherit inputs; };
+            };
+          }
+         ];
+       };      
+	
 
       homeConfigurations."dan@dan-nix" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
