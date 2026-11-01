@@ -29,15 +29,8 @@
     nix-fast-build age sops codex
     concord-tui 
     
-    (inputs.fenix.packages.${system}.stable.withComponents [
-      "cargo"
-      "clippy"
-      "rustc"
-      "rustfmt"
-      "rust-src"
-    ])
-    inputs.fenix.packages.${system}.stable.rust-analyzer
-    inputs.claude-code-nix.packages.${system}.default 
+    inputs.fenix.packages.${system}.stable.completeToolchain
+    inputs.claude-code-nix.packages.${system}.default
   
   ];
 }

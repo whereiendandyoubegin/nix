@@ -111,7 +111,7 @@
         modules = [
           ./hosts/mbp/configuration.nix
           ./modules/system/nix.nix
-	  ./modules/darwin/spotatui.nix
+       	  ./modules/darwin/spotatui.nix
           home-manager.darwinModules.home-manager
           {
             home-manager = {
