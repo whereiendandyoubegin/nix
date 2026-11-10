@@ -5,6 +5,7 @@
     ../shared/editor.nix
     ../shared/shell.nix
     ../shared/yazelix.nix
+    ./rift.nix
   ];
 
   ## I am able to set touch id to auth ssh, but I need to write a script for this
@@ -17,6 +18,8 @@
     option-as-alt = "Left"
   '';
 
+  services.rift.enable = true;
+
   home.stateVersion = "26.05";
   home.packages = with pkgs; [
     git python3 llvm lld ninja tree 
@@ -27,7 +30,7 @@
     python3Packages.python-lsp-server
     clang-tools clang openssl screen 
     nix-fast-build age sops codex
-    concord-tui 
+    concord-tui exercism tailscale
     
     inputs.fenix.packages.${system}.stable.completeToolchain
     inputs.claude-code-nix.packages.${system}.default

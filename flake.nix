@@ -63,8 +63,15 @@
     };
 
     nix-darwin = {
-	url = "github:nix-darwin/nix-darwin/master";
-	inputs.nixpkgs.follows = "nixpkgs";
+     	url = "github:nix-darwin/nix-darwin/master";
+     	inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    crane.url = "github:ipetkov/crane";
+
+    rift-src = {
+      url = "github:acsandmann/rift/v0.7.2";
+      flake = false;
     };
   };	
 

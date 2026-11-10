@@ -1,0 +1,62 @@
+return {
+  editor = {
+    ['auto-format'] = true,
+    bufferline = 'always',
+    ['color-modes'] = true,
+    cursorline = true,
+    ['end-of-line-diagnostics'] = 'hint',
+    lsp = { ['display-inlay-hints'] = true },
+    ['cursor-shape'] = { insert = 'bar', normal = 'block', select = 'block' },
+    ['file-picker'] = { hidden = true, ['git-ignore'] = true },
+    ['indent-guides'] = { render = true },
+    ['inline-diagnostics'] = { ['cursor-line'] = 'warning' },
+    ['soft-wrap'] = { enable = true },
+    statusline = {
+      center = { 'file-name' },
+      left = { 'mode', 'spinner', 'version-control' },
+      right = {
+        'diagnostics',
+        'selections',
+        'position',
+        'total-line-numbers',
+        'position-percentage',
+        'file-encoding',
+      },
+      separator = '│',
+    },
+  },
+
+  keys = {
+    normal = {
+      _order = { ':', 'A-r', 'A-ret', 'C-j', 'C-k', 'C-r', 'X', 'ret', '{', '}', 'A-g', 'backspace', 'g' },
+      [':'] = 'command_mode',
+      ['A-r'] = ':file-tree-reveal %{buffer_name}',
+      ['A-ret'] = { 'move_line_up', 'goto_first_nonwhitespace' },
+      ['C-j'] = { 'extend_to_line_bounds', 'delete_selection', 'paste_after' },
+      ['C-k'] = { 'extend_to_line_bounds', 'delete_selection', 'move_line_up', 'paste_before' },
+      ['C-r'] = { ':config-reload', ':reload' },
+      X = 'extend_line_up',
+      ret = { 'move_line_down', 'goto_first_nonwhitespace' },
+      ['{'] = 'goto_prev_paragraph',
+      ['}'] = 'goto_next_paragraph',
+      ['A-g'] = {
+        _order = { 'b', 'l', 's' },
+        b = ':sh git blame -L %{cursor_line},+1 %{buffer_name}',
+        l = ':sh git log --oneline -10 %{buffer_name}',
+        s = ':sh git status --porcelain',
+      },
+      backspace = {
+        _order = { 'c', 'd', 'h', 'i', 'l' },
+        c = ':config-open',
+        d = ':yank-diagnostic',
+        h = ':toggle-option file-picker.hidden',
+        i = ':toggle-option file-picker.git-ignore',
+        l = ':o ~/.config/nvim/lua/hx/languages.lua',
+      },
+      g = {
+        _order = { 'e' },
+        e = 'goto_file_end',
+      },
+    },
+  },
+}

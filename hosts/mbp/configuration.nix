@@ -21,10 +21,15 @@ in
   
   environment.systemPackages = [ (pkgs.callPackage ../../pkgs/nehir.nix { }) ];  
 
+  
+  environment.etc."resolver/ts.net".enable = false;
+
   security.pam.services.sudo_local = {
     touchIdAuth = true;
     reattach = true;
   };
+
+  services.tailscale.enable = true;
 
   system.stateVersion = 6;
 }
